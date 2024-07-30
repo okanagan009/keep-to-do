@@ -1,0 +1,121 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+
+    font-family: "Koulen-Regular", sans-serif;
+    font-weight: 400;
+    color: black;
+    line-height: 30px;
+    font-size: 24px;
+    background-color: white;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+}
+
+ul,
+li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 0;
+}
+
+a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+button {
+    padding: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+}
+
+input,
+textarea {
+    padding: 0;
+    display: block;
+    width: 100%;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 1950px;
+    padding: 0 15px;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    -webkit-clip-path: inset(100%);
+    clip-path: inset(100%);
+}
+
+.overflow {
+    overflow: hidden;
+}
+
+.body {
+    display: grid;
+    height: 100vh;
+    grid-template-areas:
+        'header header'
+        'navigation main'
+        'navigation footer';
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: 80px 1fr 50px;
+}
+
+.header {
+    grid-area: header;
+    background-color: blue;
+}
+
+.navigation {
+    grid-area: navigation;
+    background-color: aqua;
+}
+
+.main {
+    grid-area: main;
+    background-color: gray;
+}
+
+.footer {
+    grid-area: footer;
+    background-color: palegreen;
+}

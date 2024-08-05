@@ -12,12 +12,11 @@ body {
     margin: 0px;
     padding: 0px;
 
-    font-family: "Koulen-Regular", sans-serif;
+    font-family: "Nunito", sans-serif;
     font-weight: 400;
-    color: black;
+    color: #031605;
     line-height: 30px;
     font-size: 24px;
-    background-color: white;
 }
 
 h1,
@@ -102,20 +101,21 @@ textarea {
 
 .header {
     grid-area: header;
-    background-color: blue;
+    background-color: #16d492;
 }
 
 .navigation {
     grid-area: navigation;
-    background-color: aqua;
+    background-color: #d7f9db;
+    /* цвет для иконок в навигации #ae5ce6 */
 }
 
 .main {
     grid-area: main;
-    background-color: gray;
+    background-color: #fafffb;
 }
 
 .footer {
     grid-area: footer;
-    background-color: palegreen;
+    background-color: #c3cfc5;
 }

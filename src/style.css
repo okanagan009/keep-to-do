@@ -100,9 +100,39 @@ textarea {
 }
 
 .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 10px 0 10px;
     grid-area: header;
     background-color: #16d492;
 }
+.header__btn {
+    cursor: pointer;
+}
+
+.header__logo {}
+
+.header__search {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.header__search-input {
+    display: none;
+}
+.header__search-input .active{
+    display: block;
+}
+
+.header__search-btn {
+    cursor: pointer;
+}
+
+.btn {}
+
+.logo {}
+
 
 .navigation {
     grid-area: navigation;

@@ -99,6 +99,11 @@ textarea {
     grid-template-rows: 80px 1fr 50px;
 }
 
+
+
+/* ----- header ----- */
+
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -107,6 +112,7 @@ textarea {
     grid-area: header;
     background-color: #16d492;
 }
+
 .header__btn {
     cursor: pointer;
 }
@@ -121,7 +127,8 @@ textarea {
 .header__search-input {
     display: none;
 }
-.header__search-input .active{
+
+.header__search-input .active {
     display: block;
 }
 
@@ -134,11 +141,59 @@ textarea {
 .logo {}
 
 
+
+/* ----- navigation ----- */
+
 .navigation {
     grid-area: navigation;
     background-color: #d7f9db;
     /* цвет для иконок в навигации #ae5ce6 */
 }
+.navigation__list {}
+
+.navigation__item {}
+
+.navigation__item-link {
+    position: relative;
+    padding: 10px 5px 10px 50px;
+    font-size: 21px;
+}
+.navigation__item-link::before {
+    content: " ";
+    position: absolute;
+    left: 14px;
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.navigation__item-link.navigation__item-link--to-do::before {
+    left: 17px;
+    top: 12px;
+    background-image: url('img/to-do-icon.svg');
+
+}
+.navigation__item-link.navigation__item-link--done::before {
+    top: 8px;
+    background-image: url('img/done-icon.svg');
+}
+.navigation__item-link.navigation__item-link--trashed::before {
+    width: 29px;
+    height: 28px;
+    left: 16px;
+    background-image: url('img/trash-icon.svg');
+}
+.navigation__item-link:hover {
+    background-color: #9900ff3c;
+}
+
+.navigation__item-link--to-do {}
+
+.navigation__item-link--done {}
+
+.navigation__item-link--trashed {}
+
 
 .main {
     grid-area: main;

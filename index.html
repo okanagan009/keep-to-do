@@ -24,7 +24,7 @@
             </svg>
         </button>
         <div class="header__logo">
-            <img class="logo" width="70" height="50" src="src/img/logo-icon.svg" alt="логотип TO DO">
+            <img class="logo" width="110" height="50" src="src/img/logo-icon.svg" alt="логотип TO DO">
         </div>
         <div class="header__search">
             <input class="header__search-input" type="text">
@@ -40,18 +40,20 @@
         </div>
     </header>
     <nav class="navigation">
-        <div>Navigation</div>
         <ul class="navigation__list">
             <li class="navigation__item">
-                <a class="navigation__item-link" data-goto=".switch-button" href="#">
+                <a class="navigation__item-link  navigation__item-link--to-do" data-goto=".switch-button" href="#">
+                    Сделать
                 </a>
             </li>
             <li class="navigation__item">
-                <a class="navigation__item-link" data-goto=".switch-button" href="#">
+                <a class="navigation__item-link  navigation__item-link--done" data-goto=".switch-button" href="#">
+                    Завершено
                 </a>
             </li>
             <li class="navigation__item">
-                <a class="navigation__item-link" data-goto=".switch-button" href="#">
+                <a class="navigation__item-link  navigation__item-link--trashed" data-goto=".switch-button" href="#">
+                    Корзина
                 </a>
             </li>
         </ul>

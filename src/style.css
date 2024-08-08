@@ -149,6 +149,7 @@ textarea {
     background-color: #d7f9db;
     /* цвет для иконок в навигации #ae5ce6 */
 }
+
 .navigation__list {}
 
 .navigation__item {}
@@ -158,6 +159,7 @@ textarea {
     padding: 10px 5px 10px 50px;
     font-size: 21px;
 }
+
 .navigation__item-link::before {
     content: " ";
     position: absolute;
@@ -174,16 +176,19 @@ textarea {
     background-image: url('img/to-do-icon.svg');
 
 }
+
 .navigation__item-link.navigation__item-link--done::before {
     top: 8px;
     background-image: url('img/done-icon.svg');
 }
+
 .navigation__item-link.navigation__item-link--trashed::before {
     width: 29px;
     height: 28px;
     left: 16px;
     background-image: url('img/trash-icon.svg');
 }
+
 .navigation__item-link:hover {
     background-color: #9900ff3c;
 }
@@ -198,6 +203,55 @@ textarea {
 .main {
     grid-area: main;
     background-color: #fafffb;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main__btn {
+    position: absolute;
+    z-index: 2;
+    width: 100px;
+    height: 100px;
+    background-color: #fff;
+    border: 1px solid #af5ce66f;
+    border-radius: 50%;
+    font-size: 103px;
+    line-height: 0px;
+    color: #af5ce66f;
+    padding-bottom: 6px;
+    cursor: pointer;
+}
+.main__btn:hover {
+    color: #ae5ce6;
+}
+.main__btn:hover + .main__btn-over{
+    animation: pulse 0.5s ease-out infinite;
+}
+
+.main__btn-over {
+    position: absolute;
+    z-index: 1;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #ae5ce6;
+    animation: pulse 1s ease-out infinite;
+}
+
+@keyframes pulse {
+    from {
+        width: 100px;
+        height: 100px;
+        opacity: 1;
+    }
+
+    to {
+        width: 150px;
+        height: 150px;
+        opacity: 0;
+    }
 }
 
 .footer {

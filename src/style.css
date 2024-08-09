@@ -158,6 +158,7 @@ textarea {
     position: relative;
     padding: 10px 5px 10px 50px;
     font-size: 21px;
+    transition: background-color 0.3s ease-in;
 }
 
 .navigation__item-link::before {
@@ -223,10 +224,12 @@ textarea {
     padding-bottom: 6px;
     cursor: pointer;
 }
+
 .main__btn:hover {
     color: #ae5ce6;
 }
-.main__btn:hover + .main__btn-over{
+
+.main__btn:hover+.main__btn-over {
     animation: pulse 0.5s ease-out infinite;
 }
 
@@ -258,3 +261,25 @@ textarea {
     grid-area: footer;
     background-color: #c3cfc5;
 }
+
+.footer__list-btn {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 70px;
+}
+
+.footer__btn {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in;
+}
+
+.footer__btn img {
+    transform: translateY(5px);
+}
+.footer__btn:hover {
+    background-color: #9900ff3c;
+}
+
+.footer__btn-add-task {}

@@ -188,6 +188,10 @@ textarea {
     margin-left: auto;
 }
 
+.tablinks-active {
+    background-color: #fff;
+}
+
 
 
 .navigation__item-button--to-do {}
@@ -198,9 +202,18 @@ textarea {
 
 
 .main {
+
     grid-area: main;
     background-color: #fafffb;
+
+}
+
+.main__section {
     position: relative;
+    height: 100%;
+    display: none;
+}
+.main__section.active {
     display: flex;
     justify-content: center;
     align-items: center;

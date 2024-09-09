@@ -42,7 +42,8 @@
     <nav class="navigation">
         <ul class="navigation__list">
             <li class="navigation__item">
-                <button class="navigation__item-button  button-navigation  tablinks tablinks-active"  id="tab1" data-target="create-task">
+                <button class="navigation__item-button  button-navigation  tablinks tablinks-active" id="tab1"
+                    data-target="create-task">
                     <span class="button-navigation__icon">
                         <svg width="21" height="21" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_3_2)">
@@ -65,7 +66,8 @@
                 </button>
             </li>
             <li class="navigation__item">
-                <button class="navigation__item-button button-navigation  tablinks" id="tab2" class="tablinks" data-target="completed-task">
+                <button class="navigation__item-button button-navigation  tablinks" id="tab2" class="tablinks"
+                    data-target="completed-task">
                     <span class="button-navigation__icon">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -88,7 +90,8 @@
                 </button>
             </li>
             <li class="navigation__item">
-                <button class="navigation__item-button button-navigation  tablinks" id="tab3" class="tablinks" data-target="trash">
+                <button class="navigation__item-button button-navigation  tablinks" id="tab3" class="tablinks"
+                    data-target="trash">
                     <span class="button-navigation__icon">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -110,9 +113,13 @@
         </ul>
     </nav>
     <main class="main">
-        <section class="main__section  main__section--create-task active" id="create-task"> 
-            <button class="main__btn">+</button>
-            <div class="main__btn-over"></div>
+        <section class="main__section  main__section--create-task active" id="create-task">
+            <div class="main__btn-box">
+                <button class="main__btn  btn-add-task">+</button>
+                <div class="main__btn-over"></div>
+            </div>
+
+            <div class="main__task-content"></div>
         </section>
         <section class="main__section  main__section--completed-task" id="completed-task">
             <div class="main__completed-content">Завершенных задач нет</div>
@@ -130,17 +137,17 @@
                 </button>
             </li>
             <li class="footer__item-btn">
-                <button class="footer__btn  footer__btn--back arrow">
+                <button class="footer__btn  footer__btn--back">
                     <img src="src/img/back-arrow.svg" alt="">
                 </button>
             </li>
             <li class="footer__item-btn">
-                <button class="footer__btn  footer__btn--forward arrow">
+                <button class="footer__btn  footer__btn--forward">
                     <img src="src/img/forward-arrow.svg" alt="">
                 </button>
             </li>
             <li class="footer__item-btn">
-                <button class="footer__btn  footer__btn--add-task">
+                <button class="footer__btn  footer__btn--add-task  btn-add-task">
                     <img width="25" height="25" src="src/img/plus.svg" alt="">
                 </button>
             </li>

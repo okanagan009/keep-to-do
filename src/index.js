@@ -24,14 +24,18 @@ function openTab(event) {
 
 // -------------- add-task -------------
 const btnAddTask = document.querySelector('.btn-add-task');
+const btnAddTask2 = document.querySelector('.btn-add-task--footer');
 const blockCreateTask = document.querySelector('.main__task-content');
 const blockCompletedTask = document.querySelector('.main__section--completed-task');
 const blockTrash = document.querySelector('.main__section--trash');
 
-btnAddTask.addEventListener('click', addTask)
+btnAddTask.addEventListener('click', () => addTask(true));
+btnAddTask2.addEventListener('click', () => addTask(false));
 
-function addTask() {
-    btnAddTask.parentElement.style.display = "none";
+function addTask(hideButton) {
+    if (hideButton || blockCreateTask.children.length === 0) {
+        btnAddTask.parentElement.style.display = "none";
+    }
 
     const div = document.createElement('div');
     div.className = 'main__task-text';

@@ -113,7 +113,7 @@
         </ul>
     </nav>
     <main class="main">
-        <section class="main__section  main__section--create-task active" id="create-task">
+        <section class="main__section  main__section--create-task  active--center" id="create-task">
             <div class="main__btn-box">
                 <button class="main__btn  btn-add-task">+</button>
                 <div class="main__btn-over"></div>
@@ -153,6 +153,13 @@
             </li>
         </ul>
     </footer>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-task-text" contenteditable="true"></div>
+        </div>
+    </div>
     <script src="src/index.js"></script>
 </body>
 

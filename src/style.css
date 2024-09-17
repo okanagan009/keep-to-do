@@ -215,17 +215,23 @@ textarea {
     display: none;
 }
 
-.main__section.active {
+.main__section.active--center{
     display: flex;
     justify-content: center;
     align-items: center;
 }
+.main__section.active--start{
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
 /* .main__section.active.btn-box {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.main__section.active.task-content {
+.main__section.active .main__task-contentnt {
     display: flex;
     justify-content: start;
     align-items: start;
@@ -271,13 +277,19 @@ textarea {
     background-color: #ae5ce6;
     animation: pulse 1s ease-out infinite;
 }
+.main__task-content {
+    display: flex;
+    justify-content: space-between;
+    /* width: 100%;
+    height: 100%; */
+}
 
 .main__task-text {
     border: 1px solid #ccc;
     padding: 10px;
-    margin: 5px;
-    width: 250px;
-    min-height: 100px;
+    margin: 0 auto;
+    width: 200px;
+    min-height: 150px;
     font-size: 15px;
 }
 
@@ -322,3 +334,37 @@ textarea {
 }
 
 .footer__btn-add-task {}
+
+
+/* -------- modal ------------ */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 3;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+}
+
+.close {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#modal-task-text {
+    border: 1px solid #ccc;
+    padding: 10px;
+    min-height: 150px;
+}

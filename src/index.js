@@ -54,6 +54,8 @@ function openModalForNewTask(hideButton) {
     }
 
     modal.style.display = 'block';
+
+    document.addEventListener('keydown', handleEscapeKey);
 }
 
 // Функция для открытия модального окна при редактировании задачи
@@ -62,6 +64,8 @@ function openModal(task) {
     isNewTask = false;
     modalTaskText.textContent = task.textContent;
     modal.style.display = 'block';
+
+    document.addEventListener('keydown', handleEscapeKey);
 }
 
 // Закрытие модального окна и сохранение изменений
@@ -90,6 +94,8 @@ function closeModal() {
         activeTab.classList.remove('active--center');
         activeTab.classList.add('active--start');
     }
+
+    document.removeEventListener('keydown', handleEscapeKey);
 }
 
 // Закрытие модального окна при клике вне его
@@ -98,3 +104,15 @@ window.addEventListener('click', (event) => {
         closeModal();
     }
 });
+
+// Закрытие модального окна при нажатии esc 
+function handleEscapeKey(event) {
+    if (event.code === 'Escape') {
+        closeModal();
+    }
+}
+
+// Сделать так что бы созданные задачи переносились на следующую строку. Имея grid родителя и flex ребенка.+
+// сделать так что бы созданные элементы занимали все совободное место.
+// сделать так что бы флекс элементы сжимались под контент.
+// Если модальное окно пустое то при закрытии не создовать новой задачи.

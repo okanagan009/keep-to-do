@@ -38,16 +38,16 @@ function openTab(event) {
 
 
 // -------------- modal -------------
-let currentTask = null; 
-let isNewTask = false; 
+let currentTask = null;
+let isNewTask = false;
 
 btnAddTask.addEventListener('click', () => openModalForNewTask(true));
 btnAddTask2.addEventListener('click', () => openModalForNewTask(false));
 
 // Функция для открытия модального окна для новой задачи
 function openModalForNewTask(hideButton) {
-    isNewTask = true; 
-    modalTaskText.textContent = ''; 
+    isNewTask = true;
+    modalTaskText.textContent = '';
 
     if (hideButton || blockCreateTask.children.length === 0) {
         btnAddTask.parentElement.style.display = "none";
@@ -74,7 +74,8 @@ closeModalBtn.addEventListener('click', closeModal);
 function closeModal() {
     modal.style.display = 'none';
 
-    if (isNewTask) {
+    // Проверяем, если задача новая и не пустая
+    if (isNewTask && modalTaskText.textContent.trim() !== '') {
         const div = document.createElement('div');
         div.className = 'main__task-text';
         div.setAttribute('contenteditable', 'false');
@@ -83,20 +84,32 @@ function closeModal() {
         div.addEventListener('click', () => openModal(div));
 
         blockCreateTask.appendChild(div);
+
+        // Устанавливаем класс active--start, если задача добавлена
+        const activeTab = document.querySelector('.main__section.active--center');
+        if (activeTab) {
+            activeTab.classList.remove('active--center');
+            activeTab.classList.add('active--start');
+        }
     } else if (currentTask) {
+        // Если редактируем задачу
         currentTask.textContent = modalTaskText.textContent;
+    } else if (blockCreateTask.children.length === 0) {
+        // Если новая задача пустая и это первая задача
+        const activeTab = document.querySelector('.main__section.active--start');
+        if (activeTab) {
+            activeTab.classList.remove('active--start');
+            activeTab.classList.add('active--center');
+        }
+        // Возвращаем кнопку
+        btnAddTask.parentElement.style.display = "flex";
     }
 
     currentTask = null;
 
-    const activeTab = document.querySelector('.main__section.active--center');
-    if (activeTab) {
-        activeTab.classList.remove('active--center');
-        activeTab.classList.add('active--start');
-    }
-
     document.removeEventListener('keydown', handleEscapeKey);
 }
+
 
 // Закрытие модального окна при клике вне его
 window.addEventListener('click', (event) => {
@@ -115,4 +128,8 @@ function handleEscapeKey(event) {
 // Сделать так что бы созданные задачи переносились на следующую строку. Имея grid родителя и flex ребенка.+
 // сделать так что бы созданные элементы занимали все совободное место.
 // сделать так что бы флекс элементы сжимались под контент.
-// Если модальное окно пустое то при закрытии не создовать новой задачи.
+// Если модальное окно пустое то при закрытии не создовать новой задачи.  сделать коммит.
+
+// нужно доработать этот код. Когда я нажимаю на кнопку добавить впервый раз и если модальное окно пустое,
+// то срабатывает active--start, нужно сделать так: если после нажатия на кнопки добавить модальное окно пустое,
+// то мы вернем класс active--center, в остальных случаях класс active--start. также вернем кнопку для создания задачи.

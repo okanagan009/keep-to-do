@@ -215,12 +215,13 @@ textarea {
     display: none;
 }
 
-.main__section.active--center{
+.main__section.active--center {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.main__section.active--start{
+
+.main__section.active--start {
     display: flex;
     justify-content: start;
     align-items: start;
@@ -266,6 +267,7 @@ textarea {
     background-color: #ae5ce6;
     animation: pulse 1s ease-out infinite;
 }
+
 .main__task-content {
     display: flex;
     flex-wrap: wrap;
@@ -279,6 +281,8 @@ textarea {
     width: 200px;
     min-height: 150px;
     font-size: 15px;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 @keyframes pulse {
@@ -338,21 +342,34 @@ textarea {
 }
 
 .modal-content {
+    position: relative;
     background-color: #fff;
-    margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
+    height: calc(100vh - 130px);
     width: 50%;
+    margin: 80px auto 50px auto;
 }
 
 .close {
-    float: right;
-    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: #d7f9db;
+    right: -30px;
+    top: 0px;
     cursor: pointer;
+    transition: background-color 0.15s ease-in;
 }
 
-#modal-task-text {
-    border: 1px solid #ccc;
-    padding: 10px;
-    min-height: 150px;
+.close:hover {
+    background-color: #ae5ce6;
+}
+
+.modal-task-text {
+    outline: none;
+    height: 100%;
 }

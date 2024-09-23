@@ -7,7 +7,7 @@ const blockCreateTask = document.querySelector('.main__task-content');
 const blockCompletedTask = document.querySelector('.main__section--completed-task');
 const blockTrash = document.querySelector('.main__section--trash');
 const modal = document.getElementById('modal');
-const modalTaskText = document.getElementById('modal-task-text');
+const modalTaskText = document.querySelector('.modal-task-text');
 const closeModalBtn = document.querySelector('.close');
 
 // ---------- tab ---------
@@ -54,7 +54,7 @@ function openModalForNewTask(hideButton) {
     }
 
     modal.style.display = 'block';
-
+    addFocus()
     document.addEventListener('keydown', handleEscapeKey);
 }
 
@@ -64,7 +64,7 @@ function openModal(task) {
     isNewTask = false;
     modalTaskText.textContent = task.textContent;
     modal.style.display = 'block';
-
+    addFocus()
     document.addEventListener('keydown', handleEscapeKey);
 }
 
@@ -110,6 +110,14 @@ function closeModal() {
     document.removeEventListener('keydown', handleEscapeKey);
 }
 
+// добавить фокус
+function addFocus() {
+    if (modalTaskText.textContent.length === 0) {
+        // Если текста нет, устанавливаем фокус на элемент
+        modalTaskText.focus();
+    }
+}
+
 
 // Закрытие модального окна при клике вне его
 window.addEventListener('click', (event) => {
@@ -125,11 +133,9 @@ function handleEscapeKey(event) {
     }
 }
 
-// Сделать так что бы созданные задачи переносились на следующую строку. Имея grid родителя и flex ребенка.+
 // сделать так что бы созданные элементы занимали все совободное место.
 // сделать так что бы флекс элементы сжимались под контент.
-// Если модальное окно пустое то при закрытии не создовать новой задачи.  сделать коммит.
+// стилизовать модальное окно.
+// добавить нормальную иконку для закрытия модального окна.
+// добавить рандомное появление фонового цвета для модального окна при создании новой задачи.
 
-// нужно доработать этот код. Когда я нажимаю на кнопку добавить впервый раз и если модальное окно пустое,
-// то срабатывает active--start, нужно сделать так: если после нажатия на кнопки добавить модальное окно пустое,
-// то мы вернем класс active--center, в остальных случаях класс active--start. также вернем кнопку для создания задачи.

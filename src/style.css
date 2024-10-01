@@ -301,6 +301,7 @@ textarea {
 
 .footer {
     grid-area: footer;
+    position: relative;
     background-color: #c3cfc5;
 }
 
@@ -327,26 +328,70 @@ textarea {
 
 .footer__btn-add-task {}
 
-
 .footer__color-choice {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 195px;
+    top: -200px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    align-items: center;
-    /* gap: 20px; */
     width: 100px;
-    background-color: #c3cfc5;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.footer__color-choice.footer__color-choice--active {
+    opacity: 1;
+    pointer-events: all;
 }
 
 .footer__btn-color {
-    width: 30px;
-    height: 30px;
-    margin: 10px;
-    background-color: #fff;
+    padding: 12.5px;
+    background-color: #c3cfc5;
     cursor: pointer;
 }
+
 .footer__btn-color:hover {
-    opacity: 0.5;
+    opacity: 0.75;
+}
+
+.footer__color-box {
+    width: 25px;
+    height: 25px;
+    background-color: #fff;
+}
+
+#lavender-mist .footer__color-box {
+    background-color: #E6E6FA;
+}
+
+#pale-pink .footer__color-box {
+    background-color: #FADADD;
+}
+
+#mint-cream .footer__color-box {
+    background-color: #F5FFFA;
+}
+
+#baby-blue .footer__color-box {
+    background-color: #E0FFFF;
+}
+
+#light-beige .footer__color-box {
+    background-color: #F5F5DC;
+}
+
+#powder-blue .footer__color-box {
+    background-color: #B0E0E6;
+}
+
+#peach-puff .footer__color-box {
+    background-color: #FFDAB9;
+}
+
+#alice-blue .footer__color-box {
+    background-color: #F0F8FF;
 }
 
 

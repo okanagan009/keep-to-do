@@ -135,9 +135,25 @@ function handleEscapeKey(event) {
 }
 
 
+// открытие/закрытие панели выбора цвета для задач
+const btnPaint = document.querySelector('.footer__btn--paint');
+const colorPanel = document.querySelector('.footer__color-choice');
+
+if (btnPaint && colorPanel) {
+    btnPaint.addEventListener('click', toggleColorPanel);
+
+    function toggleColorPanel() {
+        colorPanel.classList.toggle('footer__color-choice--active');
+    }
+}
+
+
+
+
 
 // добавить рандомное появление фонового цвета для модального окна при создании новой задачи.
 // создать кнопки закрытия для задач и перенос этих задач в новый отдел таба.
+// появление скрытие элемента выборацвета при нажатии на кнопку.
 // добавить выбор цвета при нажатии на кнопку
 
 

@@ -277,11 +277,9 @@ textarea {
 
 .main__task-text {
     padding: 10px;
-    border: 1px solid #ccc;
     font-size: 15px;
     word-wrap: break-word;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    /* Легкая тень */
 }
 
 
@@ -315,7 +313,7 @@ textarea {
     width: 50px;
     height: 50px;
     cursor: pointer;
-    transition: background-color 0.3s ease-in;
+    transition: background-color 0.2s ease-in;
 }
 
 .footer__btn img {
@@ -324,6 +322,12 @@ textarea {
 
 .footer__btn:hover {
     background-color: #9900ff3c;
+}
+.footer__btn.footer__btn--paint:hover {
+    background-color: #9900ff3c;
+}
+.footer__btn.footer__btn--paint-no-hover:hover {
+    background-color: #c3cfc5;
 }
 
 .footer__btn-add-task {}
@@ -371,7 +375,7 @@ textarea {
 }
 
 #mint-cream .footer__color-box {
-    background-color: #F5FFFA;
+    background-color: #bbeed5;
 }
 
 #baby-blue .footer__color-box {
@@ -410,9 +414,7 @@ textarea {
 
 .modal-content {
     position: relative;
-    background-color: #fff;
     padding: 20px;
-    border: 1px solid #888;
     height: calc(100vh - 130px);
     width: 50%;
     margin: 80px auto 50px auto;

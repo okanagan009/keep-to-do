@@ -7,6 +7,7 @@ const blockCreateTask = document.querySelector('.main__task-content');
 const blockCompletedTask = document.querySelector('.main__section--completed-task');
 const blockTrash = document.querySelector('.main__section--trash');
 const modal = document.getElementById('modal');
+const modalContent = document.querySelector('.modal-content')
 const modalTaskText = document.querySelector('.modal-task-text');
 const closeModalBtn = document.querySelector('.close');
 
@@ -40,6 +41,8 @@ function openTab(event) {
 // -------------- modal -------------
 let currentTask = null;
 let isNewTask = false;
+let selectedColor = '';
+const colors = ['#E6E6FA', '#FADADD', '#bbeed5', '#E0FFFF', '#F5F5DC', '#B0E0E6', '#FFDAB9', '#F0F8FF'];
 
 btnAddTask.addEventListener('click', () => openModalForNewTask(true));
 btnAddTask2.addEventListener('click', () => openModalForNewTask(false));
@@ -55,6 +58,11 @@ function openModalForNewTask(hideButton) {
 
     modal.style.display = 'block';
     addFocus()
+
+    // Генерируем случайный цвет и сохраняем его
+    selectedColor = colors[Math.floor(Math.random() * colors.length)];
+    modalContent.style.backgroundColor = selectedColor;
+
     document.addEventListener('keydown', handleEscapeKey);
 }
 
@@ -80,6 +88,8 @@ function closeModal() {
         div.className = 'main__task-text';
         div.setAttribute('contenteditable', 'false');
         div.textContent = modalTaskText.textContent;
+
+        div.style.backgroundColor = selectedColor;
 
         div.addEventListener('click', () => openModal(div));
 
@@ -144,6 +154,7 @@ if (btnPaint && colorPanel) {
 
     function toggleColorPanel() {
         colorPanel.classList.toggle('footer__color-choice--active');
+        btnPaint.classList.toggle('footer__btn--paint-no-hover');
     }
 }
 
@@ -153,8 +164,10 @@ if (btnPaint && colorPanel) {
 
 // добавить рандомное появление фонового цвета для модального окна при создании новой задачи.
 // создать кнопки закрытия для задач и перенос этих задач в новый отдел таба.
-// появление скрытие элемента выборацвета при нажатии на кнопку.
-// добавить выбор цвета при нажатии на кнопку
+// при клике на созданную задачу в модальном окне должен быть тот же самый цвет.
+// сделать что бы цвета подтягивались из кнопок
+// связать кнопки с цветами и модальное окно.
+
 
 
 

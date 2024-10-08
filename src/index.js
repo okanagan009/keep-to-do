@@ -3,6 +3,7 @@ const tabContent = document.querySelectorAll('.main__section');
 
 const btnAddTask = document.querySelector('.btn-add-task');
 const btnAddTask2 = document.querySelector('.btn-add-task--footer');
+const controlBtn = document.querySelectorAll('.control-btn');
 const blockCreateTask = document.querySelector('.main__task-content');
 const blockCompletedTask = document.querySelector('.main__section--completed-task');
 const blockTrash = document.querySelector('.main__section--trash');
@@ -42,7 +43,15 @@ function openTab(event) {
 let currentTask = null;
 let isNewTask = false;
 let selectedColor = '';
-const colors = ['#E6E6FA', '#FADADD', '#bbeed5', '#E0FFFF', '#F5F5DC', '#B0E0E6', '#FFDAB9', '#F0F8FF'];
+let colors = []; 
+
+const colorBoxes = document.querySelectorAll('.footer__color-box');
+
+colorBoxes.forEach(box => {
+    const color = window.getComputedStyle(box).backgroundColor;
+    colors.push(color);
+});
+
 
 btnAddTask.addEventListener('click', () => openModalForNewTask(true));
 btnAddTask2.addEventListener('click', () => openModalForNewTask(false));
@@ -55,6 +64,9 @@ function openModalForNewTask(hideButton) {
     if (hideButton || blockCreateTask.children.length === 0) {
         btnAddTask.parentElement.style.display = "none";
     }
+
+    btnAddTask2.classList.add('footer__btn--hidden');
+    controlBtn.forEach(btn => btn.classList.remove('footer__btn--hidden'));
 
     modal.style.display = 'block';
     addFocus()
@@ -71,6 +83,13 @@ function openModal(task) {
     currentTask = task;
     isNewTask = false;
     modalTaskText.textContent = task.textContent;
+
+    const taskColor = window.getComputedStyle(task).backgroundColor; 
+    modalContent.style.backgroundColor = taskColor; 
+
+    btnAddTask2.classList.add('footer__btn--hidden');
+    controlBtn.forEach(btn => btn.classList.remove('footer__btn--hidden'));
+
     modal.style.display = 'block';
     addFocus()
     document.addEventListener('keydown', handleEscapeKey);
@@ -81,6 +100,9 @@ closeModalBtn.addEventListener('click', closeModal);
 
 function closeModal() {
     modal.style.display = 'none';
+
+    btnAddTask2.classList.remove('footer__btn--hidden');
+    controlBtn.forEach(btn => btn.classList.add('footer__btn--hidden'));
 
     // Проверяем, если задача новая и не пустая
     if (isNewTask && modalTaskText.textContent.trim() !== '') {
@@ -157,17 +179,12 @@ if (btnPaint && colorPanel) {
         btnPaint.classList.toggle('footer__btn--paint-no-hover');
     }
 }
+// если модальное окно и редактирование задачи открыто, то кнопка добавить новую задачу в футере скрыта.
+// если модальное окно закрыто, то кнопки назад вперед и выбор квета скрыты.
 
-
-
-
-
-// добавить рандомное появление фонового цвета для модального окна при создании новой задачи.
+// сделать футер выше модального окна что бы кнопки работали. 
 // создать кнопки закрытия для задач и перенос этих задач в новый отдел таба.
-// при клике на созданную задачу в модальном окне должен быть тот же самый цвет.
-// сделать что бы цвета подтягивались из кнопок
-// связать кнопки с цветами и модальное окно.
-
+// создать счетчик задач на боковой панели.
 
 
 

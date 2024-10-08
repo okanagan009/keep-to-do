@@ -300,10 +300,13 @@ textarea {
 .footer {
     grid-area: footer;
     position: relative;
+    z-index: 3;
     background-color: #c3cfc5;
 }
 
 .footer__list-btn {
+    position: relative;
+    z-index: 3;
     display: flex;
     justify-content: flex-end;
     margin-right: 70px;
@@ -313,7 +316,15 @@ textarea {
     width: 50px;
     height: 50px;
     cursor: pointer;
-    transition: background-color 0.2s ease-in;
+    opacity: 1;
+    pointer-events: all;
+    transition: all 0.2s ease-in;
+}
+
+.footer__btn--hidden {
+    opacity: 0; 
+    pointer-events: none;
+    transition: all 0.2s ease;
 }
 
 .footer__btn img {
@@ -404,7 +415,7 @@ textarea {
 .modal {
     display: none;
     position: fixed;
-    z-index: 3;
+    z-index: 2;
     left: 0;
     top: 0;
     width: 100%;

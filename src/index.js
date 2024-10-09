@@ -8,13 +8,13 @@ const blockCreateTask = document.querySelector('.main__task-content');
 const blockCompletedTask = document.querySelector('.main__section--completed-task');
 const blockTrash = document.querySelector('.main__section--trash');
 const modal = document.getElementById('modal');
-const modalContent = document.querySelector('.modal-content')
+const modalContent = document.querySelector('.modal-content');
 const modalTaskText = document.querySelector('.modal-task-text');
 const closeModalBtn = document.querySelector('.close');
 
 // ---------- tab ---------
 tablinks.forEach(element => {
-    element.addEventListener('click', openTab)
+    element.addEventListener('click', openTab);
 });
 
 function openTab(event) {
@@ -43,7 +43,8 @@ function openTab(event) {
 let currentTask = null;
 let isNewTask = false;
 let selectedColor = '';
-let colors = []; 
+let colors = [];
+let isColorSelectedManually = false;
 
 const colorBoxes = document.querySelectorAll('.footer__color-box');
 
@@ -69,11 +70,16 @@ function openModalForNewTask(hideButton) {
     controlBtn.forEach(btn => btn.classList.remove('footer__btn--hidden'));
 
     modal.style.display = 'block';
-    addFocus()
+    addFocus();
 
-    // Генерируем случайный цвет и сохраняем его
-    selectedColor = colors[Math.floor(Math.random() * colors.length)];
+    // Если цвет не был выбран вручную, генерируем случайный цвет
+    if (!selectedColor) {
+        selectedColor = colors[Math.floor(Math.random() * colors.length)];
+    }
     modalContent.style.backgroundColor = selectedColor;
+
+    // Сброс флага при открытии модального окна, чтобы для новых задач цвет генерировался случайно
+    isColorSelectedManually = false;
 
     document.addEventListener('keydown', handleEscapeKey);
 }
@@ -84,14 +90,14 @@ function openModal(task) {
     isNewTask = false;
     modalTaskText.textContent = task.textContent;
 
-    const taskColor = window.getComputedStyle(task).backgroundColor; 
-    modalContent.style.backgroundColor = taskColor; 
+    const taskColor = window.getComputedStyle(task).backgroundColor;
+    modalContent.style.backgroundColor = taskColor;
 
     btnAddTask2.classList.add('footer__btn--hidden');
     controlBtn.forEach(btn => btn.classList.remove('footer__btn--hidden'));
 
     modal.style.display = 'block';
-    addFocus()
+    addFocus();
     document.addEventListener('keydown', handleEscapeKey);
 }
 
@@ -127,6 +133,7 @@ function closeModal() {
     } else if (currentTask) {
         // Если редактируем задачу
         currentTask.textContent = modalTaskText.textContent;
+        currentTask.style.backgroundColor = selectedColor;
     } else if (blockCreateTask.children.length === 0) {
         // Если новая задача пустая и это первая задача
         const activeTab = document.querySelector('.main__section.active--start');
@@ -139,6 +146,8 @@ function closeModal() {
     }
 
     currentTask = null;
+
+    selectedColor = '';
 
     document.removeEventListener('keydown', handleEscapeKey);
 }
@@ -167,7 +176,7 @@ function handleEscapeKey(event) {
 }
 
 
-// открытие/закрытие панели выбора цвета для задач
+// открытие/закрытие панели, выбора цвета для задач
 const btnPaint = document.querySelector('.footer__btn--paint');
 const colorPanel = document.querySelector('.footer__color-choice');
 
@@ -179,10 +188,26 @@ if (btnPaint && colorPanel) {
         btnPaint.classList.toggle('footer__btn--paint-no-hover');
     }
 }
-// если модальное окно и редактирование задачи открыто, то кнопка добавить новую задачу в футере скрыта.
-// если модальное окно закрыто, то кнопки назад вперед и выбор квета скрыты.
 
-// сделать футер выше модального окна что бы кнопки работали. 
+// Выбор фонового цвета для модального окна
+const colorButtons = document.querySelectorAll('.footer__btn-color');
+
+colorButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        selectedColor = button.getAttribute('data-color');
+        modalContent.style.backgroundColor = selectedColor;
+        isColorSelectedManually = true; 
+    });
+});
+
+
+// добавить ручной выбор цвета для фона в модальном окне.
+// при закрытии модального окна если панель выбора цвета открыта также закрывать ее автоматически.
+// для кнопок вперед и назад добавить функционал. (на 1 шаг)
+
+// для созданных задач при наведении сделать появляется кнопка которая может закрывать эту задачу и переносить
+// в завершенное, корзина
+
 // создать кнопки закрытия для задач и перенос этих задач в новый отдел таба.
 // создать счетчик задач на боковой панели.
 

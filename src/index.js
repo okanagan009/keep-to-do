@@ -161,33 +161,53 @@ function addFocus() {
 }
 
 
-// Закрытие модального окна при клике вне его
-window.addEventListener('click', (event) => {
-    if (event.target === modal) {
-        closeModal();
-    }
-});
-
-// Закрытие модального окна при нажатии esc 
-function handleEscapeKey(event) {
-    if (event.code === 'Escape') {
-        closeModal();
-    }
-}
-
-
-// открытие/закрытие панели, выбора цвета для задач
 const btnPaint = document.querySelector('.footer__btn--paint');
 const colorPanel = document.querySelector('.footer__color-choice');
 
 if (btnPaint && colorPanel) {
     btnPaint.addEventListener('click', toggleColorPanel);
 
-    function toggleColorPanel() {
+    function toggleColorPanel() { 
+        // Переключаем классы для панели и кнопки
         colorPanel.classList.toggle('footer__color-choice--active');
         btnPaint.classList.toggle('footer__btn--paint-no-hover');
     }
 }
+
+
+// Закрытие модального окна и панели цвета при нажатии esc
+function handleEscapeKey(event) {
+    if (event.code === 'Escape') {
+        // Сначала закрываем панель выбора цвета, если она открыта
+        if (colorPanel.classList.contains('footer__color-choice--active')) {
+            toggleColorPanel();
+        }
+        // Если панель выбора цвета закрыта, проверяем модальное окно
+        else if (modal.style.display === 'block') {
+            closeModal();
+        }
+    }
+}
+
+// Закрытие модального окна и/или панели выбора цвета
+window.addEventListener('click', (event) => {
+    const isClickInsidePaintButton = btnPaint.contains(event.target);
+    const isClickInsideColorPanel = colorPanel.contains(event.target);
+
+    if (colorPanel.classList.contains('footer__color-choice--active')) {
+        // Закрываем панель, если клик был вне панели и кнопки
+        if (!isClickInsideColorPanel && !isClickInsidePaintButton) {
+            toggleColorPanel();
+        }
+    } else {
+        // Закрываем модальное окно, если клик был вне него
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+});
+
+
 
 // Выбор фонового цвета для модального окна
 const colorButtons = document.querySelectorAll('.footer__btn-color');
@@ -196,12 +216,11 @@ colorButtons.forEach(button => {
     button.addEventListener('click', () => {
         selectedColor = button.getAttribute('data-color');
         modalContent.style.backgroundColor = selectedColor;
-        isColorSelectedManually = true; 
+        isColorSelectedManually = true;
     });
 });
 
 
-// добавить ручной выбор цвета для фона в модальном окне.
 // при закрытии модального окна если панель выбора цвета открыта также закрывать ее автоматически.
 // для кнопок вперед и назад добавить функционал. (на 1 шаг)
 

@@ -167,7 +167,7 @@ const colorPanel = document.querySelector('.footer__color-choice');
 if (btnPaint && colorPanel) {
     btnPaint.addEventListener('click', toggleColorPanel);
 
-    function toggleColorPanel() { 
+    function toggleColorPanel() {
         // Переключаем классы для панели и кнопки
         colorPanel.classList.toggle('footer__color-choice--active');
         btnPaint.classList.toggle('footer__btn--paint-no-hover');
@@ -221,14 +221,70 @@ colorButtons.forEach(button => {
 });
 
 
-// при закрытии модального окна если панель выбора цвета открыта также закрывать ее автоматически.
-// для кнопок вперед и назад добавить функционал. (на 1 шаг)
+// ---- шаг вперед, шаг назад для текста задачи. реализацией undo/redo механизма. ----
+
+const undoBtn = document.querySelector('.undo');
+const redoBtn = document.querySelector('.redo');
+
+let undoStack = [];
+let redoStack = [];
+let inputTimeout = null;
+
+// Функция для сохранения состояния
+function saveState() {
+    undoStack.push(modalTaskText.innerHTML);
+    redoStack = [];
+}
+
+// Отслеживаем ввод текста
+modalTaskText.addEventListener('input', () => {
+    clearTimeout(inputTimeout);
+    inputTimeout = setTimeout(saveState, 500);
+});
+
+// Сохранение состояния при нажатии на пробел или Enter
+modalTaskText.addEventListener('keydown', (event) => {
+    if (event.key === ' ' || event.key === 'Enter') {
+        saveState();
+    }
+});
+
+// Шаг назад (Undo)
+undoBtn.addEventListener('click', () => {
+    if (undoStack.length > 0) {
+        const lastState = undoStack.pop();
+        redoStack.push(modalTaskText.innerHTML);
+        modalTaskText.innerHTML = lastState;
+    }
+});
+
+// Шаг вперед (Redo)
+redoBtn.addEventListener('click', () => {
+    if (redoStack.length > 0) {
+        const nextState = redoStack.pop();
+        undoStack.push(modalTaskText.innerHTML);
+        modalTaskText.innerHTML = nextState;
+    }
+});
+
+
+
+// для кнопок вперед и назад добавить активность состояний
 
 // для созданных задач при наведении сделать появляется кнопка которая может закрывать эту задачу и переносить
 // в завершенное, корзина
 
-// создать кнопки закрытия для задач и перенос этих задач в новый отдел таба.
 // создать счетчик задач на боковой панели.
+// при нажатии на кнопку меню, боковая панель складывается
+
+// уменьшить иконки в header
+// создать поиск по задачам, по одинаковым словам
+
+// добавить легкую анимацию.
+// добавить анимированую загрузку в начале 
+
+// баги
+// при нажатии на созданную задачу и после ее закрытия проподает цвет фона.  
 
 
 

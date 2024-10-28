@@ -57,10 +57,19 @@ colorBoxes.forEach(box => {
 btnAddTask.addEventListener('click', () => openModalForNewTask(true));
 btnAddTask2.addEventListener('click', () => openModalForNewTask(false));
 
-// Функция для открытия модального окна для новой задачи
+// Функция для генерации уникального ID для каждой задачи
+function generateUniqueId() {
+    return `task-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+}
+
+// Функция открытия модального окна для новой задачи
 function openModalForNewTask(hideButton) {
     isNewTask = true;
     modalTaskText.textContent = '';
+
+    // Генерируем уникальный ID для новой задачи и устанавливаем историю
+    const newTaskId = generateUniqueId();
+    setTaskHistory(newTaskId);
 
     if (hideButton || blockCreateTask.children.length === 0) {
         btnAddTask.parentElement.style.display = "none";
@@ -84,6 +93,35 @@ function openModalForNewTask(hideButton) {
     document.addEventListener('keydown', handleEscapeKey);
 }
 
+
+// Установка истории задачи
+function setTaskHistory(taskId) {
+    currentTaskId = taskId;
+
+    if (!taskHistory.has(taskId)) {
+        taskHistory.set(taskId, { undo: [], redo: [] });
+    }
+
+    const { undo, redo } = taskHistory.get(taskId);
+    currentUndoStack = undo;
+    currentRedoStack = redo;
+
+    updateButtonStates();
+}
+
+// Сохранение состояния задачи
+function saveStateForCurrentTask() {
+    currentUndoStack.push(modalTaskText.innerHTML);
+    currentRedoStack = [];
+
+    taskHistory.set(currentTaskId, {
+        undo: [...currentUndoStack],
+        redo: [...currentRedoStack],
+    });
+
+    updateButtonStates();
+}
+
 // Функция для открытия модального окна при редактировании задачи
 function openModal(task) {
     currentTask = task;
@@ -92,6 +130,8 @@ function openModal(task) {
 
     const taskColor = window.getComputedStyle(task).backgroundColor;
     modalContent.style.backgroundColor = taskColor;
+
+    setTaskHistory(task);
 
     btnAddTask2.classList.add('footer__btn--hidden');
     controlBtn.forEach(btn => btn.classList.remove('footer__btn--hidden'));
@@ -226,47 +266,65 @@ colorButtons.forEach(button => {
 const undoBtn = document.querySelector('.undo');
 const redoBtn = document.querySelector('.redo');
 
-let undoStack = [];
-let redoStack = [];
-let inputTimeout = null;
+let taskHistory = new Map(); // Храним историю undo/redo для каждой задачи (ключ: id задачи)
+let currentTaskId = 'new-task';
 
-// Функция для сохранения состояния
-function saveState() {
-    undoStack.push(modalTaskText.innerHTML);
-    redoStack = [];
+let currentUndoStack = [];
+let currentRedoStack = [];
+
+// Функция сброса undo/redo для новой задачи
+function resetHistory() {
+    currentUndoStack = [];
+    currentRedoStack = [];
+    updateButtonStates(); // Обновляем состояние кнопок
 }
 
-// Отслеживаем ввод текста
-modalTaskText.addEventListener('input', () => {
-    clearTimeout(inputTimeout);
-    inputTimeout = setTimeout(saveState, 500);
-});
-
-// Сохранение состояния при нажатии на пробел или Enter
+// Сохранение состояния при вводе пробела или Enter
 modalTaskText.addEventListener('keydown', (event) => {
     if (event.key === ' ' || event.key === 'Enter') {
-        saveState();
+        saveStateForCurrentTask();
     }
 });
 
-// Шаг назад (Undo)
+// Обновление состояния кнопок undo/redo
+function updateButtonStates() {
+    undoBtn.disabled = currentUndoStack.length === 0;
+    redoBtn.disabled = currentRedoStack.length === 0;
+}
+
+// Undo (шаг назад)
 undoBtn.addEventListener('click', () => {
-    if (undoStack.length > 0) {
-        const lastState = undoStack.pop();
-        redoStack.push(modalTaskText.innerHTML);
+    if (currentUndoStack.length > 0) {
+        const lastState = currentUndoStack.pop();
+        currentRedoStack.push(modalTaskText.innerHTML);
         modalTaskText.innerHTML = lastState;
+
+        // Обновляем историю в map
+        taskHistory.set(currentTaskId, {
+            undo: [...currentUndoStack],
+            redo: [...currentRedoStack],
+        });
+
+        updateButtonStates();
     }
 });
 
-// Шаг вперед (Redo)
+// Redo (шаг вперед)
 redoBtn.addEventListener('click', () => {
-    if (redoStack.length > 0) {
-        const nextState = redoStack.pop();
-        undoStack.push(modalTaskText.innerHTML);
+    if (currentRedoStack.length > 0) {
+        const nextState = currentRedoStack.pop();
+        currentUndoStack.push(modalTaskText.innerHTML);
         modalTaskText.innerHTML = nextState;
+
+        // Обновляем историю в map
+        taskHistory.set(currentTaskId, {
+            undo: [...currentUndoStack],
+            redo: [...currentRedoStack],
+        });
+
+        updateButtonStates();
     }
 });
-
 
 
 // для кнопок вперед и назад добавить активность состояний
@@ -285,6 +343,8 @@ redoBtn.addEventListener('click', () => {
 
 // баги
 // при нажатии на созданную задачу и после ее закрытия проподает цвет фона.  
+// для каждой задачи должен undo/redo должен быть свой, сейчас он общий и в новых задачах можно дойти до слов из прошлых задач.
+
 
 
 

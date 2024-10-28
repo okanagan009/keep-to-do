@@ -318,10 +318,24 @@ textarea {
     cursor: pointer;
     opacity: 1;
     pointer-events: all;
-    transition: all 0.2s ease-in;
 }
 
 .footer__btn--hidden {
+    opacity: 0; 
+    pointer-events: none;
+}
+
+
+.footer__btn:disabled {
+    background-color: #ccc; 
+    opacity: 0.3; 
+}
+
+.footer__btn:disabled:active {
+    /* opacity: 0.1;  */
+}
+
+.footer__btn--hidden:disabled {
     opacity: 0; 
     pointer-events: none;
     transition: all 0.2s ease;

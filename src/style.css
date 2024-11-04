@@ -276,10 +276,30 @@ textarea {
 }
 
 .main__task-text {
+    position: relative;
     padding: 10px;
     font-size: 15px;
     word-wrap: break-word;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.main__task-text::before {
+    content: " ";
+    position: absolute;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    top: 0;
+    right: 0;
+    width: 23px;
+    height: 23px;
+    border-radius: 1px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease-in;
+}
+
+.main__task-text:hover::before {
+    opacity: 1;
 }
 
 
@@ -321,14 +341,14 @@ textarea {
 }
 
 .footer__btn--hidden {
-    opacity: 0; 
+    opacity: 0;
     pointer-events: none;
 }
 
 
 .footer__btn:disabled {
-    background-color: #ccc; 
-    opacity: 0.3; 
+    background-color: #ccc;
+    opacity: 0.3;
 }
 
 .footer__btn:disabled:active {
@@ -336,7 +356,7 @@ textarea {
 }
 
 .footer__btn--hidden:disabled {
-    opacity: 0; 
+    opacity: 0;
     pointer-events: none;
     transition: all 0.2s ease;
 }
@@ -348,9 +368,11 @@ textarea {
 .footer__btn:hover {
     background-color: #9900ff3c;
 }
+
 .footer__btn.footer__btn--paint:hover {
     background-color: #9900ff3c;
 }
+
 .footer__btn.footer__btn--paint-no-hover:hover {
     background-color: #c3cfc5;
 }

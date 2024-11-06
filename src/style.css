@@ -283,7 +283,7 @@ textarea {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.main__task-text::before {
+.main__task-close {
     content: " ";
     position: absolute;
     background: rgba(0, 0, 0, 0.5);
@@ -296,12 +296,13 @@ textarea {
     cursor: pointer;
     opacity: 0;
     transition: opacity 0.2s ease-in;
+    transition-delay: 1s;
 }
 
-.main__task-text:hover::before {
+.main__task-text:hover .main__task-close {
     opacity: 1;
+    transition-delay: 0s;
 }
-
 
 @keyframes pulse {
     from {

@@ -151,16 +151,28 @@ function closeModal() {
 
     // Проверяем, если задача новая и не пустая
     if (isNewTask && modalTaskText.textContent.trim() !== '') {
-        const div = document.createElement('div');
-        div.className = 'main__task-text';
-        div.setAttribute('contenteditable', 'false');
-        div.textContent = modalTaskText.textContent;
+        const taskDiv = document.createElement('div');
+        taskDiv.className = 'main__task-text';
+        taskDiv.setAttribute('contenteditable', 'false');
+        taskDiv.textContent = modalTaskText.textContent;
+        taskDiv.style.backgroundColor = selectedColor;
 
-        div.style.backgroundColor = selectedColor;
+        // Добавляем событие для редактирования задачи
+        taskDiv.addEventListener('click', () => openModal(taskDiv));
 
-        div.addEventListener('click', () => openModal(div));
+        // Создаем кнопку закрытия задачи
+        const closeDiv = document.createElement('div');
+        closeDiv.className = 'main__task-close';
+        closeDiv.addEventListener('click', (event) => {
+            event.stopPropagation(); // Предотвращаем открытие модалки при нажатии на закрыть
+            handleCloseTask(taskDiv); // Функция для обработки закрытия
+        });
 
-        blockCreateTask.appendChild(div);
+        // Встраиваем кнопку закрытия внутрь задачи
+        taskDiv.appendChild(closeDiv);
+
+        // Добавляем задачу в блок создания задач
+        blockCreateTask.appendChild(taskDiv);
 
         // Устанавливаем класс active--start, если задача добавлена
         const activeTab = document.querySelector('.main__section.active--center');
@@ -185,11 +197,73 @@ function closeModal() {
     }
 
     currentTask = null;
-
     selectedColor = '';
 
     document.removeEventListener('keydown', handleEscapeKey);
 }
+
+// --------- Пренести в другой раздел, удалить созданную задачу. --------------
+
+function handleCloseTask(taskDiv) {
+    // Определяем текущий раздел задачи и целевой блок для перемещения
+    const parentSection = taskDiv.closest('.main__section');
+    let targetContent;
+
+    if (parentSection.classList.contains('main__section--create-task')) {
+        targetContent = blockCompletedTask.querySelector('.main__task-content');
+        targetContent.appendChild(taskDiv);
+    } else if (parentSection.classList.contains('main__section--completed-task')) {
+        targetContent = blockTrash.querySelector('.main__task-content');
+        targetContent.appendChild(taskDiv);
+    } else if (parentSection.classList.contains('main__section--trash')) {
+        taskDiv.remove();
+    }
+
+    // Обновляем классы и видимость блоков для текущего и целевого контента
+    [parentSection.querySelector('.main__task-content'), targetContent].forEach(updateContentVisibility);
+
+    // Переключаем классы для main__section, если нет задач
+    updateSectionClass(parentSection);
+
+    // Устанавливаем display для main__btn-box, если нет задач в main__section--create-task
+    updateBtnBoxVisibility();
+}
+
+// Функция обновления видимости контента
+function updateContentVisibility(content) {
+    if (content) {
+        const isEmpty = content.children.length === 0;
+        content.classList.toggle('main__task-content--active', !isEmpty);
+
+        let relatedContent;
+
+        if (content.closest('.main__section--completed-task')) {
+            relatedContent = document.querySelector('.main__completed-content');
+        } else if (content.closest('.main__section--trash')) {
+            relatedContent = document.querySelector('.main__trash-content');
+        }
+
+        // Обновляем видимость relatedContent в зависимости от того, пустой ли content
+        if (relatedContent) {
+            relatedContent.style.display = isEmpty ? 'block' : 'none';
+        }
+    }
+}
+
+// Функция для переключения классов у main__section при отсутствии задач
+function updateSectionClass(section) {
+    const isEmpty = section.querySelector('.main__task-content').children.length === 0;
+    section.classList.toggle('active--start', !isEmpty);
+    section.classList.toggle('active--center', isEmpty);
+}
+
+// Функция управления видимостью main__btn-box
+function updateBtnBoxVisibility() {
+    const btnBox = document.querySelector('.main__btn-box');
+    btnBox.style.display = blockCreateTask.children.length === 0 ? 'flex' : 'none';
+}
+
+// -----------------------------------------------------
 
 // добавить фокус
 function addFocus() {
@@ -325,21 +399,24 @@ redoBtn.addEventListener('click', () => {
     }
 });
 
-
-// ------- Закрытие задачи. Перемещение в завершенное корзина ---------
-
-
 // для созданных задач при наведении сделать появляется кнопка которая может закрывать эту задачу и переносить
 // в завершенное, корзина
 
 // создать счетчик задач на боковой панели.
+
 // при нажатии на кнопку меню, боковая панель складывается
 
 // уменьшить иконки в header
+
 // создать поиск по задачам, по одинаковым словам
 
+// для создать и корзина убрать кнопку добавить новую задачу.
+
 // добавить легкую анимацию.
-// добавить анимированую загрузку в начале 
+
+// добавить анимированую загрузку в начале
+
+// адаптировать под планшет и мобильный экран
 
 // баги
 // при нажатии на созданную задачу и после ее закрытия проподает цвет фона. 

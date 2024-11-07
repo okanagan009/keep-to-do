@@ -37,6 +37,23 @@ function openTab(event) {
         tabElement.classList.add('active--center');
     }
 }
+//------------------------------------------------------
+
+// --------------- счетчик задач -----------------------
+
+// Счетчики для каждого раздела
+const createTaskCount = document.querySelector('.button-navigation__count--create');
+const completedTaskCount = document.querySelector('.button-navigation__count--completed');
+const trashTaskCount = document.querySelector('.button-navigation__count--trash');
+
+// Функция для обновления счётчиков
+function updateTaskCounts() {
+    createTaskCount.textContent = blockCreateTask.children.length;
+    completedTaskCount.textContent = blockCompletedTask.querySelector('.main__task-content').children.length;
+    trashTaskCount.textContent = blockTrash.querySelector('.main__task-content').children.length;
+}
+
+//------------------------------------------------------
 
 // -------------- modal -------------
 let currentTask = null;
@@ -181,6 +198,10 @@ function closeModal() {
             activeTab.classList.add('active--start');
             blockCreateTask.classList.add('main__task-content--active');
         }
+
+        // Обновляем счётчики
+        updateTaskCounts();
+
     } else if (currentTask) {
         // Если редактируем задачу
         currentTask.textContent = modalTaskText.textContent;
@@ -227,6 +248,9 @@ function handleCloseTask(taskDiv) {
 
     // Устанавливаем display для main__btn-box, если нет задач в main__section--create-task
     updateBtnBoxVisibility();
+
+    // Обновляем счётчики
+    updateTaskCounts();
 }
 
 // Функция обновления видимости контента
@@ -398,9 +422,6 @@ redoBtn.addEventListener('click', () => {
         updateButtonStates();
     }
 });
-
-// для созданных задач при наведении сделать появляется кнопка которая может закрывать эту задачу и переносить
-// в завершенное, корзина
 
 // создать счетчик задач на боковой панели.
 

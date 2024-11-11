@@ -96,7 +96,7 @@ textarea {
         'navigation main'
         'navigation footer';
     grid-template-columns: 200px 1fr;
-    grid-template-rows: 80px 1fr 50px;
+    grid-template-rows: 65px 1fr 50px;
 }
 
 
@@ -115,13 +115,14 @@ textarea {
 
 .header__btn {
     cursor: pointer;
+    margin-bottom: 6px;
 }
 
 .header__logo {}
 
 .header__search {
     display: flex;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 
 .header__search-input {
@@ -463,9 +464,9 @@ textarea {
 .modal-content {
     position: relative;
     padding: 20px;
-    height: calc(100vh - 130px);
+    height: calc(100vh - 115px);
     width: 50%;
-    margin: 80px auto 50px auto;
+    margin: 65px auto 50px auto;
 }
 
 .close {

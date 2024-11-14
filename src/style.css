@@ -342,6 +342,10 @@ textarea {
     pointer-events: all;
 }
 
+.footer__btn.btn-add-task--footer {
+    display: none;
+}
+
 .footer__btn--hidden {
     opacity: 0;
     pointer-events: none;

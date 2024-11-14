@@ -36,8 +36,24 @@ function openTab(event) {
     } else {
         tabElement.classList.add('active--center');
     }
+
+    // Скрытие кнопки в footer только если задача не была создана в вкладке "Create"
+    if (tabName !== 'create-task') {
+        btnAddTask2.style.display = 'none';
+    } else {
+        checkBtnVisibility();
+    }
 }
 //------------------------------------------------------
+
+// Функция для проверки видимости кнопки только в разделе "Создать"
+function checkBtnVisibility() {
+    if (blockCreateTask.children.length > 0) {
+        btnAddTask2.style.display = 'block';
+    } else {
+        btnAddTask2.style.display = 'none';
+    }
+}
 
 // --------------- счетчик задач -----------------------
 
@@ -202,6 +218,9 @@ function closeModal() {
         // Обновляем счётчики
         updateTaskCounts();
 
+        // Показать кнопку, если есть хотя бы одна задача в разделе "создать"
+        checkBtnVisibility();
+
     } else if (currentTask) {
         // Если редактируем задачу
         currentTask.textContent = modalTaskText.textContent;
@@ -215,6 +234,7 @@ function closeModal() {
         }
         // Возвращаем кнопку
         btnAddTask.parentElement.style.display = "flex";
+        btnAddTask2.style.display = 'none';
     }
 
     currentTask = null;
@@ -251,6 +271,9 @@ function handleCloseTask(taskDiv) {
 
     // Обновляем счётчики
     updateTaskCounts();
+
+    // Показать кнопку, если есть хотя бы одна задача в разделе "создать"
+    checkBtnVisibility();
 }
 
 // Функция обновления видимости контента
@@ -425,11 +448,7 @@ redoBtn.addEventListener('click', () => {
 
 // при нажатии на кнопку меню, боковая панель складывается
 
-// уменьшить иконки в header
-
 // создать поиск по задачам, по одинаковым словам
-
-// для создать и корзина убрать кнопку добавить новую задачу.
 
 // добавить легкую анимацию.
 

@@ -108,6 +108,8 @@ textarea {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    position: relative;
+    z-index: 98;
     padding: 0 10px 0 10px;
     grid-area: header;
     background-color: #16d492;
@@ -147,40 +149,99 @@ textarea {
 
 .navigation {
     grid-area: navigation;
+    position: relative;
+    z-index: 97;
     background-color: #d7f9db;
-    /* цвет для иконок в навигации #ae5ce6 */
 }
 
-.navigation__list {}
+.navigation__list {
+    padding: 10px 0 0 10px;
+}
 
-.navigation__item {}
+.navigation__item-button.button-navigation.tablinks.tablinks-active {
+    position: relative;
+    z-index: 93
+}
+
 
 .navigation__item-button {
+    position: relative;
+    z-index: 94;
+    border-top-left-radius: 17px;
+    border-bottom-left-radius: 17px;
     font-size: 20px;
-    transition: background-color 0.3s ease-in;
+    transition: background-color 0.1s ease-in;
 }
 
-.navigation__item-button:hover {
-    background-color: #9900ff3c;
+.navigation__item-button:active {
+    border-top-left-radius: 17px;
+    border-bottom-left-radius: 17px;
+    background-color: #fff;
+}
+
+
+
+.tablinks-active .button-navigation__round-border--top,
+.tablinks-active .button-navigation__round-border--bottom {
+    position: absolute;
+    z-index: -1;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+    pointer-events: none;
+}
+
+.tablinks-active .button-navigation__round-border--top {
+    top: -30px;
+}
+
+.tablinks-active .button-navigation__round-border--top::after {
+    position: absolute;
+    z-index: -1;
+    content: " ";
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    background-color: #d7f9db;
+    border-bottom-right-radius: 15px;
+}
+
+.tablinks-active .button-navigation__round-border--bottom {
+    bottom: -30px;
+}
+
+.tablinks-active .button-navigation__round-border--bottom::after {
+    position: absolute;
+    z-index: -1;
+    content: " ";
+    bottom: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    background-color: #d7f9db;
+    border-top-right-radius: 15px;
 }
 
 .button-navigation {
     display: flex;
     width: 100%;
-    padding: 10px 0px;
     cursor: pointer;
 }
 
 .button-navigation__icon {
-    display: flex;
+    width: 40px;
+    height: 40px;
+    /* display: flex;
     justify-content: center;
     align-items: center;
     padding: 0px 10px;
-    height: 100%;
+    height: 100%; */
 }
 
 .button-navigation__icon svg {
-    transform: translate(0px, 4px);
+    transform: translate(0%, 50%);
 }
 
 .button-navigation__text {}
@@ -194,7 +255,16 @@ textarea {
     background-color: #fff;
 }
 
+.button-navigation__wrapper {
+    display: flex;
+    align-items: center; 
+    padding-top: 7px;
+    flex-grow: 1;
+}
 
+.navigation__item {
+    margin-bottom: 5px;
+}
 
 .navigation__item-button--to-do {}
 
@@ -322,7 +392,7 @@ textarea {
 .footer {
     grid-area: footer;
     position: relative;
-    z-index: 3;
+    z-index: 100;
     background-color: #c3cfc5;
 }
 
@@ -457,7 +527,7 @@ textarea {
 .modal {
     display: none;
     position: fixed;
-    z-index: 2;
+    z-index: 99;
     left: 0;
     top: 0;
     width: 100%;

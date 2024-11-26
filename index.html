@@ -43,6 +43,8 @@
             <li class="navigation__item">
                 <button class="navigation__item-button  button-navigation  tablinks tablinks-active" id="tab1"
                     data-target="create-task">
+                    <div class="button-navigation__round-border--top"></div>
+                    <div class="button-navigation__round-border--bottom"></div>
                     <span class="button-navigation__icon">
                         <svg width="21" height="21" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_3_2)">
@@ -60,13 +62,17 @@
                             </defs>
                         </svg>
                     </span>
-                    <span class="button-navigation__text">Создать</span>
-                    <span class="button-navigation__count  button-navigation__count--create">0</span>
+                    <div class="button-navigation__wrapper">
+                        <span class="button-navigation__text">Создать</span>
+                        <span class="button-navigation__count  button-navigation__count--create">0</span>
+                    </div>
                 </button>
             </li>
             <li class="navigation__item">
                 <button class="navigation__item-button button-navigation  tablinks" id="tab2" class="tablinks"
                     data-target="completed-task">
+                    <div class="button-navigation__round-border--top"></div>
+                    <div class="button-navigation__round-border--bottom"></div>
                     <span class="button-navigation__icon">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -84,13 +90,17 @@
                         </svg>
 
                     </span>
-                    <span class="button-navigation__text">Завершено</span>
-                    <span class="button-navigation__count  button-navigation__count--completed">0</span>
+                     <div class="button-navigation__wrapper">
+                        <span class="button-navigation__text">Завершено</span>
+                        <span class="button-navigation__count  button-navigation__count--completed">0</span>
+                    </div> 
                 </button>
             </li>
             <li class="navigation__item">
                 <button class="navigation__item-button button-navigation  tablinks" id="tab3" class="tablinks"
                     data-target="trash">
+                    <div class="button-navigation__round-border--top"></div>
+                    <div class="button-navigation__round-border--bottom"></div>
                     <span class="button-navigation__icon">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -103,10 +113,11 @@
                                 d="M4.44446 3.63636C4.44446 3.75692 4.50299 3.87253 4.60718 3.95778C4.71136 4.04302 4.85267 4.09091 5.00001 4.09091H15.5556C15.7029 4.09091 15.8442 4.04302 15.9484 3.95778C16.0526 3.87253 16.1111 3.75692 16.1111 3.63636V2.27273C16.1111 1.66996 15.8185 1.09189 15.2975 0.665666C14.7766 0.239447 14.0701 0 13.3333 0H7.22224C6.48552 0 5.77898 0.239447 5.25805 0.665666C4.73712 1.09189 4.44446 1.66996 4.44446 2.27273V3.63636ZM5.55557 3.18182V2.27273C5.55557 1.91107 5.73116 1.56422 6.04372 1.30849C6.35628 1.05276 6.78021 0.909091 7.22224 0.909091H13.3333C13.7754 0.909091 14.1993 1.05276 14.5119 1.30849C14.8244 1.56422 15 1.91107 15 2.27273V3.18182H5.55557Z"
                                 fill="black" />
                         </svg>
-
                     </span>
-                    <span class="button-navigation__text">Корзина</span>
-                    <span class="button-navigation__count  button-navigation__count--trash">0</span>
+                    <div class="button-navigation__wrapper">
+                        <span class="button-navigation__text">Корзина</span>
+                        <span class="button-navigation__count  button-navigation__count--trash">0</span>
+                    </div>
                 </button>
             </li>
         </ul>

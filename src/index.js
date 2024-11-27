@@ -71,6 +71,21 @@ function updateTaskCounts() {
 
 //------------------------------------------------------
 
+// -------------- Menu Open/Close Button --------------
+
+const menuBtn = document.querySelector('.header__btn.btn');
+const body = document.querySelector('.body');
+const buttonNavigationWrapper = document.querySelectorAll('.button-navigation__wrapper')
+
+menuBtn.addEventListener('click', toggleMenu);
+
+function toggleMenu() {
+    body.classList.toggle('hidden-menu');
+    buttonNavigationWrapper.forEach(item => item.classList.toggle('hidden-menu'));
+}
+
+// ----------------------------------------------------
+
 // -------------- modal -------------
 let currentTask = null;
 let isNewTask = false;

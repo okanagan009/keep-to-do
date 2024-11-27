@@ -99,6 +99,12 @@ textarea {
     grid-template-rows: 65px 1fr 50px;
 }
 
+.body.hidden-menu {
+    grid-template-columns: 60px 1fr;
+}
+
+
+
 
 
 /* ----- header ----- */
@@ -257,9 +263,17 @@ textarea {
 
 .button-navigation__wrapper {
     display: flex;
-    align-items: center; 
+    align-items: center;
     padding-top: 7px;
     flex-grow: 1;
+    visibility: visible;
+    opacity: 1;
+}
+
+.button-navigation__wrapper.hidden-menu {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
 }
 
 .navigation__item {

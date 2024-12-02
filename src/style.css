@@ -107,6 +107,8 @@ textarea {
 
 
 
+
+
 /* ----- header ----- */
 
 
@@ -116,14 +118,14 @@ textarea {
     align-items: flex-end;
     position: relative;
     z-index: 98;
-    padding: 0 10px 0 10px;
+    padding: 0 10px 0 15px;
     grid-area: header;
     background-color: #16d492;
 }
 
 .header__btn {
     cursor: pointer;
-    margin-bottom: 6px;
+    margin-bottom: 3px;
 }
 
 .header__logo {}
@@ -143,6 +145,7 @@ textarea {
 
 .header__search-btn {
     cursor: pointer;
+
 }
 
 .btn {}
@@ -553,7 +556,7 @@ textarea {
     position: relative;
     padding: 20px;
     height: calc(100vh - 115px);
-    width: 50%;
+    max-width: 50%;
     margin: 65px auto 50px auto;
 }
 
@@ -578,4 +581,62 @@ textarea {
 .modal-task-text {
     outline: none;
     height: 100%;
+}
+
+@media (max-width: 1180px) {
+    .footer__color-choice {
+        right: 122px;
+    }
+}
+
+@media (max-width: 800px) {
+    .body {
+        grid-template-areas:
+            'header header'
+            'navigation main'
+            'footer footer';
+        font-size: 20px;
+        grid-template-columns: 60px 1fr;
+    }
+
+    .header__logo {
+        width: 80px;
+        height: 40px;
+        margin-bottom: 12px;
+    }
+
+    .navigation {
+        position: absolute;
+        height: calc(100vh - 65px);
+        top: 65px;
+        width: 60px;
+    }
+
+    .navigation.hidden-menu {
+        width: 200px;
+    }
+
+    .footer__list-btn {
+        margin-right: 0px;
+    }
+
+    .modal-content {
+        padding: 10px;
+        max-width: 800px;
+        margin: 65px 60px 50px 60px;
+    }
+    .footer__color-choice {
+        right: 50px;
+    }
+
+    .main__task-text .main__task-close {
+        opacity: 0.5;
+        transition-delay: 0s;
+    }
+}
+
+@media (max-width: 420px) {
+    .modal-content {
+        margin: 65px 30px 50px 30px;
+    }
 }

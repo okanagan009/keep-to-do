@@ -75,14 +75,42 @@ function updateTaskCounts() {
 
 const menuBtn = document.querySelector('.header__btn.btn');
 const body = document.querySelector('.body');
-const buttonNavigationWrapper = document.querySelectorAll('.button-navigation__wrapper')
+const navigation = document.querySelector('.navigation')
+const buttonNavigationWrapper = document.querySelectorAll('.button-navigation__wrapper');
 
+// Переключение меню при клике на кнопку
 menuBtn.addEventListener('click', toggleMenu);
 
 function toggleMenu() {
-    body.classList.toggle('hidden-menu');
-    buttonNavigationWrapper.forEach(item => item.classList.toggle('hidden-menu'));
+    const isMenuHidden = body.classList.contains('hidden-menu');
+    body.classList.toggle('hidden-menu', !isMenuHidden);
+    navigation.classList.toggle('hidden-menu');
+    buttonNavigationWrapper.forEach(item => item.classList.toggle('hidden-menu', !isMenuHidden));
 }
+
+// Медиа-запрос для ширины экрана
+const mediaQuery = window.matchMedia("(max-width: 800px)");
+
+function handleMediaQueryChange(e) {
+    if (e.matches) {
+        // При ширине меньше или равной 800px скрываем меню
+        body.classList.add('hidden-menu');
+        navigation.classList.remove('hidden-menu');
+        buttonNavigationWrapper.forEach(item => item.classList.add('hidden-menu'));
+    } else {
+        // При ширине больше 800px возвращаем стандартное состояние
+        body.classList.remove('hidden-menu');
+        navigation.classList.remove('hidden-menu');
+        buttonNavigationWrapper.forEach(item => item.classList.remove('hidden-menu'));
+    }
+}
+
+// Проверяем начальное состояние
+handleMediaQueryChange(mediaQuery);
+
+// Добавляем слушатель на изменение размеров экрана
+mediaQuery.addEventListener("change", handleMediaQueryChange);
+
 
 // ----------------------------------------------------
 
@@ -461,13 +489,7 @@ redoBtn.addEventListener('click', () => {
     }
 });
 
-// при нажатии на кнопку меню, боковая панель складывается
-
 // создать поиск по задачам, по одинаковым словам
-
-// добавить легкую анимацию.
-
-// добавить анимированую загрузку в начале
 
 // адаптировать под планшет и мобильный экран
 

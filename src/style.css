@@ -104,11 +104,6 @@ textarea {
 }
 
 
-
-
-
-
-
 /* ----- header ----- */
 
 
@@ -131,8 +126,8 @@ textarea {
 .header__logo {}
 
 .header__search {
-    display: flex;
-    margin-bottom: 4px;
+    margin-bottom: 13px;
+    margin-right: 5px;
 }
 
 .header__search-input {
@@ -151,6 +146,87 @@ textarea {
 .btn {}
 
 .logo {}
+
+
+.search-box {
+    font-size: 25px;
+    border: solid 2px #000000;
+    display: inline-block;
+    position: relative;
+    border-radius: 25px;
+}
+
+.search-box__input {
+    font-family: inherit;
+    width: 25px;
+    height: 25px;
+    padding: 3px 18px 3px 6px;
+    border: none;
+    box-sizing: border-box;
+    border-radius: 25px;
+    transition: width 800ms cubic-bezier(0.68, -0.55, 0.27, 1.55) 150ms;
+}
+
+.search-box__input:focus {
+    outline: none;
+}
+
+.search-box__input:focus,
+.search-box__input:not(:placeholder-shown) {
+    width: 200px;
+    transition: width 800ms cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.search-box__input:focus+.search-box__button,
+.search-box__input:not(:placeholder-shown)+.search-box__button {
+    transform: rotate(-45deg) translateY(0);
+    transition: transform 150ms ease-out 800ms;
+}
+
+.search-box__input:focus+.search-box__button::after,
+.search-box__input:not(:placeholder-shown)+.search-box__button::after {
+    opacity: 1;
+    transition:
+        top 150ms ease-out 950ms,
+        right 150ms ease-out 950ms,
+        opacity 150ms ease 950ms;
+}
+
+.search-box__button {
+    background-color: transparent;
+    width: 14px;
+    height: 14px;
+    border: 0;
+    padding: 0;
+    outline: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: calc(25px / 2 - 14px / 2);
+    right: calc(25px / 2 - 14px / 2);
+    transform: rotate(-45deg) translateY(20px);
+    transition: transform 150ms ease-out 150ms;
+    z-index: 1;
+    pointer-events: auto;
+}
+
+.search-box__button::before,
+.search-box__button::after {
+    content: "";
+    background-color: #000000;
+    width: 2px;
+    height: 14px;
+    position: absolute;
+}
+
+.search-box__button::after {
+    transform: rotate(90deg);
+    opacity: 0;
+    transition:
+        transform 150ms ease-out,
+        opacity 150ms ease-out;
+}
 
 
 
@@ -625,6 +701,7 @@ textarea {
         max-width: 800px;
         margin: 65px 60px 50px 60px;
     }
+
     .footer__color-choice {
         right: 50px;
     }

@@ -1,6 +1,5 @@
 const tablinks = document.querySelectorAll('.tablinks');
 const tabContent = document.querySelectorAll('.main__section');
-
 const btnAddTask = document.querySelector('.btn-add-task');
 const btnAddTask2 = document.querySelector('.btn-add-task--footer');
 const controlBtn = document.querySelectorAll('.control-btn');
@@ -12,7 +11,8 @@ const modalContent = document.querySelector('.modal-content');
 const modalTaskText = document.querySelector('.modal-task-text');
 const closeModalBtn = document.querySelector('.close');
 
-// ---------- tab ---------
+
+// ------------------- tab -------------------
 tablinks.forEach(element => {
     element.addEventListener('click', openTab);
 });
@@ -46,7 +46,8 @@ function openTab(event) {
 }
 //------------------------------------------------------
 
-// Функция для проверки видимости кнопки только в разделе "Создать"
+
+//-------- Функция для проверки видимости кнопки только в разделе "Создать"--------
 function checkBtnVisibility() {
     if (blockCreateTask.children.length > 0) {
         btnAddTask2.style.display = 'block';
@@ -54,9 +55,10 @@ function checkBtnVisibility() {
         btnAddTask2.style.display = 'none';
     }
 }
+// --------------------------------------------------------------------------------
+
 
 // --------------- счетчик задач -----------------------
-
 // Счетчики для каждого раздела
 const createTaskCount = document.querySelector('.button-navigation__count--create');
 const completedTaskCount = document.querySelector('.button-navigation__count--completed');
@@ -68,12 +70,11 @@ function updateTaskCounts() {
     completedTaskCount.textContent = blockCompletedTask.querySelector('.main__task-content').children.length;
     trashTaskCount.textContent = blockTrash.querySelector('.main__task-content').children.length;
 }
-
 //------------------------------------------------------
 
-// -------------- Menu Open/Close Button --------------
 
-const menuBtn = document.querySelector('.header__btn.btn');
+// -------------- Menu Open/Close Button --------------
+const menuBtn = document.querySelector('.navigation__btn.btn');
 const body = document.querySelector('.body');
 const navigation = document.querySelector('.navigation')
 const buttonNavigationWrapper = document.querySelectorAll('.button-navigation__wrapper');
@@ -110,9 +111,8 @@ handleMediaQueryChange(mediaQuery);
 
 // Добавляем слушатель на изменение размеров экрана
 mediaQuery.addEventListener("change", handleMediaQueryChange);
-
-
 // ----------------------------------------------------
+
 
 // -------------- modal -------------
 let currentTask = null;
@@ -168,35 +168,6 @@ function openModalForNewTask(hideButton) {
     document.addEventListener('keydown', handleEscapeKey);
 }
 
-
-// Установка истории задачи
-function setTaskHistory(taskId) {
-    currentTaskId = taskId;
-
-    if (!taskHistory.has(taskId)) {
-        taskHistory.set(taskId, { undo: [], redo: [] });
-    }
-
-    const { undo, redo } = taskHistory.get(taskId);
-    currentUndoStack = undo;
-    currentRedoStack = redo;
-
-    updateButtonStates();
-}
-
-// Сохранение состояния задачи
-function saveStateForCurrentTask() {
-    currentUndoStack.push(modalTaskText.innerHTML);
-    currentRedoStack = [];
-
-    taskHistory.set(currentTaskId, {
-        undo: [...currentUndoStack],
-        redo: [...currentRedoStack],
-    });
-
-    updateButtonStates();
-}
-
 // Функция для открытия модального окна при редактировании задачи
 function openModal(task) {
     currentTask = task;
@@ -231,7 +202,7 @@ function closeModal() {
         taskDiv.className = 'main__task-text';
         taskDiv.setAttribute('contenteditable', 'false');
         taskDiv.textContent = modalTaskText.textContent;
-        taskDiv.style.backgroundColor = selectedColor;
+        taskDiv.style.backgroundColor = selectedColor || colors[Math.floor(Math.random() * colors.length)];
 
         // Добавляем событие для редактирования задачи
         taskDiv.addEventListener('click', () => openModal(taskDiv));
@@ -263,11 +234,26 @@ function closeModal() {
 
         // Показать кнопку, если есть хотя бы одна задача в разделе "создать"
         checkBtnVisibility();
-
     } else if (currentTask) {
         // Если редактируем задачу
         currentTask.textContent = modalTaskText.textContent;
-        currentTask.style.backgroundColor = selectedColor;
+        currentTask.style.backgroundColor = selectedColor || currentTask.style.backgroundColor;
+
+        // Проверяем наличие кнопки закрытия, и если её нет, добавляем
+        if (!currentTask.querySelector('.main__task-close')) {
+            const closeDiv = document.createElement('div');
+            closeDiv.className = 'main__task-close';
+            closeDiv.addEventListener('click', (event) => {
+                event.stopPropagation(); // Предотвращаем открытие модалки при нажатии на закрыть
+                handleCloseTask(currentTask); // Функция для обработки закрытия
+            });
+
+            // Встраиваем кнопку закрытия внутрь задачи
+            currentTask.appendChild(closeDiv);
+
+            // currentTask = null;
+
+        }
     } else if (blockCreateTask.children.length === 0) {
         // Если новая задача пустая и это первая задача
         const activeTab = document.querySelector('.main__section.active--start');
@@ -280,14 +266,47 @@ function closeModal() {
         btnAddTask2.style.display = 'none';
     }
 
-    currentTask = null;
+    // currentTask = null;
     selectedColor = '';
 
     document.removeEventListener('keydown', handleEscapeKey);
 }
+// ---------------------------------------------------------------------------
+
+
+//------- Установка истории задачи----------
+function setTaskHistory(taskId) {
+    currentTaskId = taskId;
+
+    if (!taskHistory.has(taskId)) {
+        taskHistory.set(taskId, { undo: [], redo: [] });
+    }
+
+    const { undo, redo } = taskHistory.get(taskId);
+    currentUndoStack = undo;
+    currentRedoStack = redo;
+
+    updateButtonStates();
+}
+//--------------------------------------
+
+
+//--- Сохранение состояния задачи-----
+function saveStateForCurrentTask() {
+    currentUndoStack.push(modalTaskText.innerHTML);
+    currentRedoStack = [];
+
+    taskHistory.set(currentTaskId, {
+        undo: [...currentUndoStack],
+        redo: [...currentRedoStack],
+    });
+
+    updateButtonStates();
+}
+//--------------------------------------
+
 
 // --------- Пренести в другой раздел, удалить созданную задачу. --------------
-
 function handleCloseTask(taskDiv) {
     // Определяем текущий раздел задачи и целевой блок для перемещения
     const parentSection = taskDiv.closest('.main__section');
@@ -302,6 +321,9 @@ function handleCloseTask(taskDiv) {
     } else if (parentSection.classList.contains('main__section--trash')) {
         taskDiv.remove();
     }
+
+    // Снимаем выделение текста
+    window.getSelection().removeAllRanges();
 
     // Обновляем классы и видимость блоков для текущего и целевого контента
     [parentSection.querySelector('.main__task-content'), targetContent].forEach(updateContentVisibility);
@@ -355,15 +377,18 @@ function updateBtnBoxVisibility() {
 
 // -----------------------------------------------------
 
-// добавить фокус
+
+// ---------- добавить фокус -----------------
 function addFocus() {
     if (modalTaskText.textContent.length === 0) {
         // Если текста нет, устанавливаем фокус на элемент
         modalTaskText.focus();
     }
 }
+// --------------------------------------------
 
 
+// ---------------- нижняя панель управление в Footer -------------------
 const btnPaint = document.querySelector('.footer__btn--paint');
 const colorPanel = document.querySelector('.footer__color-choice');
 
@@ -376,6 +401,7 @@ if (btnPaint && colorPanel) {
         btnPaint.classList.toggle('footer__btn--paint-no-hover');
     }
 }
+// ---------------------------------------------------------------------
 
 
 // Закрытие модального окна и панели цвета при нажатии esc
@@ -391,8 +417,10 @@ function handleEscapeKey(event) {
         }
     }
 }
+// ---------------------------------------------------------------------
 
-// Закрытие модального окна и/или панели выбора цвета
+
+// ------  Закрытие модального окна и/или панели выбора цвета ----------
 window.addEventListener('click', (event) => {
     const isClickInsidePaintButton = btnPaint.contains(event.target);
     const isClickInsideColorPanel = colorPanel.contains(event.target);
@@ -409,7 +437,7 @@ window.addEventListener('click', (event) => {
         }
     }
 });
-
+// ------------------------------------------------------------------------
 
 
 // Выбор фонового цвета для модального окна
@@ -422,10 +450,10 @@ colorButtons.forEach(button => {
         isColorSelectedManually = true;
     });
 });
+// ---------------------------------------------------------------------------------
 
 
 // ---- шаг вперед, шаг назад для текста задачи. реализацией undo/redo механизма. ----
-
 const undoBtn = document.querySelector('.undo');
 const redoBtn = document.querySelector('.redo');
 
@@ -488,13 +516,7 @@ redoBtn.addEventListener('click', () => {
         updateButtonStates();
     }
 });
-
-// создать поиск по задачам, по одинаковым словам
-
-// адаптировать под планшет и мобильный экран
-
-// баги
-// при нажатии на созданную задачу и после ее закрытия проподает цвет фона. 
+// -----------------------------------------------------------------------------------
 
 
 

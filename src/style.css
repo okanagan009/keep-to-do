@@ -118,16 +118,11 @@ textarea {
     background-color: #16d492;
 }
 
-.header__btn {
-    cursor: pointer;
-    margin-bottom: 3px;
-}
-
 .header__logo {}
 
 .header__search {
     margin-bottom: 13px;
-    margin-right: 5px;
+    margin-right: 10px;
 }
 
 .header__search-input {
@@ -160,7 +155,7 @@ textarea {
     font-family: inherit;
     width: 25px;
     height: 25px;
-    padding: 3px 18px 3px 6px;
+    padding: 3px 18px 3px 7px;
     border: none;
     box-sizing: border-box;
     border-radius: 25px;
@@ -239,8 +234,17 @@ textarea {
     background-color: #d7f9db;
 }
 
+.navigation__btn {
+    position: relative;
+    margin-left: 15px;
+    margin-top: 5px;
+    cursor: pointer;
+    z-index: 97;
+    cursor: pointer;
+}
+
 .navigation__list {
-    padding: 10px 0 0 10px;
+    padding-left: 10px;
 }
 
 .navigation__item-button.button-navigation.tablinks.tablinks-active {
@@ -715,5 +719,10 @@ textarea {
 @media (max-width: 420px) {
     .modal-content {
         margin: 65px 30px 50px 30px;
+    }
+
+    .search-box__input:focus,
+    .search-box__input:not(:placeholder-shown) {
+        width: 150px;
     }
 }

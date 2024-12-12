@@ -1,53 +1,62 @@
-const tablinks = document.querySelectorAll('.tablinks');
-const tabContent = document.querySelectorAll('.main__section');
-const btnAddTask = document.querySelector('.btn-add-task');
-const btnAddTask2 = document.querySelector('.btn-add-task--footer');
-const controlBtn = document.querySelectorAll('.control-btn');
-const blockCreateTask = document.querySelector('.main__task-content');
-const blockCompletedTask = document.querySelector('.main__section--completed-task');
-const blockTrash = document.querySelector('.main__section--trash');
-const modal = document.getElementById('modal');
-const modalContent = document.querySelector('.modal-content');
-const modalTaskText = document.querySelector('.modal-task-text');
-const closeModalBtn = document.querySelector('.close');
+// Определение всех необходимых элементов на странице
+const tablinks = document.querySelectorAll('.tablinks'); // Вкладки
+const tabContent = document.querySelectorAll('.main__section'); // Секции контента
+const btnAddTask = document.querySelector('.btn-add-task'); // Кнопка добавления задачи в основной области
+const btnAddTask2 = document.querySelector('.btn-add-task--footer'); // Кнопка добавления задачи в нижнем колонтитуле
+const controlBtn = document.querySelectorAll('.control-btn'); // Кнопки управления в нижнем колонтитуле
+const blockCreateTask = document.querySelector('.main__task-content'); // Блок создания задач
+const blockCompletedTask = document.querySelector('.main__section--completed-task'); // Блок завершённых задач
+const blockTrash = document.querySelector('.main__section--trash'); // Блок корзины
+const modal = document.getElementById('modal'); // Модальное окно
+const modalContent = document.querySelector('.modal-content'); // Контент модального окна
+const modalTaskText = document.querySelector('.modal-task-text'); // Текст задачи в модальном окне
+const closeModalBtn = document.querySelector('.close'); // Кнопка закрытия модального окна
 
 
-// ------------------- tab -------------------
+// ------------------- tab (Обработка вкладок)-------------------
+// Добавляем обработчики клика для всех вкладок
 tablinks.forEach(element => {
     element.addEventListener('click', openTab);
 });
 
+// Функция открытия выбранной вкладки
 function openTab(event) {
+    // Убираем активное состояние со всех вкладок
     for (const item of tablinks) {
         item.classList.remove('tablinks-active');
     }
 
+    // Скрываем все секции контента
     for (const item of tabContent) {
         item.classList.remove('active--center', 'active--start');
     }
 
+    // Устанавливаем активное состояние для текущей вкладки
     event.currentTarget.classList.add('tablinks-active');
 
+    // Получаем имя вкладки из атрибута data-target
     const tabName = event.currentTarget.getAttribute('data-target');
     const tabElement = document.getElementById(tabName);
 
+    // Определяем позиционирование секции в зависимости от наличия задач
     if (tabElement.querySelector('.main__task-content .main__task-text')) {
         tabElement.classList.add('active--start');
     } else {
         tabElement.classList.add('active--center');
     }
 
-    // Скрытие кнопки в footer только если задача не была создана в вкладке "Create"
+    // Скрываем кнопку в нижнем колонтитуле, если вкладка не "Создать"
     if (tabName !== 'create-task') {
         btnAddTask2.style.display = 'none';
     } else {
-        checkBtnVisibility();
+        checkBtnVisibility(); // Проверяем видимость кнопки для вкладки "Создать"
     }
 }
 //------------------------------------------------------
 
 
-//-------- Функция для проверки видимости кнопки только в разделе "Создать"--------
+// ---------------- Проверка видимости кнопки ----------------
+// Функция для проверки, должна ли кнопка добавления задачи быть видимой
 function checkBtnVisibility() {
     if (blockCreateTask.children.length > 0) {
         btnAddTask2.style.display = 'block';
@@ -58,28 +67,29 @@ function checkBtnVisibility() {
 // --------------------------------------------------------------------------------
 
 
-// --------------- счетчик задач -----------------------
-// Счетчики для каждого раздела
+// ---------------- Обновление счётчиков задач ----------------
+// Определяем элементы счётчиков для разделов
 const createTaskCount = document.querySelector('.button-navigation__count--create');
 const completedTaskCount = document.querySelector('.button-navigation__count--completed');
 const trashTaskCount = document.querySelector('.button-navigation__count--trash');
 
-// Функция для обновления счётчиков
+// Функция для обновления количества задач в каждом разделе
 function updateTaskCounts() {
-    createTaskCount.textContent = blockCreateTask.children.length;
-    completedTaskCount.textContent = blockCompletedTask.querySelector('.main__task-content').children.length;
-    trashTaskCount.textContent = blockTrash.querySelector('.main__task-content').children.length;
+    createTaskCount.textContent = blockCreateTask.children.length; // Обновляем для "Создать"
+    completedTaskCount.textContent = blockCompletedTask.querySelector('.main__task-content').children.length; // "Завершено"
+    trashTaskCount.textContent = blockTrash.querySelector('.main__task-content').children.length; // "Корзина"
 }
 //------------------------------------------------------
 
 
 // -------------- Menu Open/Close Button --------------
+// Определяем элементы меню
 const menuBtn = document.querySelector('.navigation__btn.btn');
 const body = document.querySelector('.body');
-const navigation = document.querySelector('.navigation')
+const navigation = document.querySelector('.navigation');
 const buttonNavigationWrapper = document.querySelectorAll('.button-navigation__wrapper');
 
-// Переключение меню при клике на кнопку
+// Обработчик клика для открытия/закрытия меню
 menuBtn.addEventListener('click', toggleMenu);
 
 function toggleMenu() {
@@ -89,7 +99,7 @@ function toggleMenu() {
     buttonNavigationWrapper.forEach(item => item.classList.toggle('hidden-menu', !isMenuHidden));
 }
 
-// Медиа-запрос для ширины экрана
+// Обработка медиа-запросов для автоматического скрытия меню на малых экранах
 const mediaQuery = window.matchMedia("(max-width: 800px)");
 
 function handleMediaQueryChange(e) {
@@ -115,177 +125,170 @@ mediaQuery.addEventListener("change", handleMediaQueryChange);
 
 
 // -------------- modal -------------
-let currentTask = null;
-let isNewTask = false;
-let selectedColor = '';
-let colors = [];
-let isColorSelectedManually = false;
+let currentTask = null; // Текущая редактируемая задача
+let isNewTask = false; // Флаг, обозначающий создание новой задачи
+let selectedColor = ''; // Выбранный цвет задачи
+let colors = []; // Массив доступных цветов
+let isColorSelectedManually = false; // Флаг, показывающий, выбран ли цвет вручную
 
+// Получаем все элементы с классом footer__color-box
 const colorBoxes = document.querySelectorAll('.footer__color-box');
 
+// Заполняем массив colors цветами из элементов colorBoxes
 colorBoxes.forEach(box => {
     const color = window.getComputedStyle(box).backgroundColor;
     colors.push(color);
 });
 
 
-btnAddTask.addEventListener('click', () => openModalForNewTask(true));
-btnAddTask2.addEventListener('click', () => openModalForNewTask(false));
+// Добавляем обработчики кликов на кнопки "Добавить задачу"
+btnAddTask.addEventListener('click', () => openModalForNewTask(true)); // При клике открываем модалку и скрываем кнопку
+btnAddTask2.addEventListener('click', () => openModalForNewTask(false)); // При клике открываем модалку без скрытия кнопки
 
 // Функция для генерации уникального ID для каждой задачи
 function generateUniqueId() {
-    return `task-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    return `task-${Date.now()}-${Math.floor(Math.random() * 1000)}`; // Генерация ID на основе текущего времени и случайного числа
 }
 
 // Функция открытия модального окна для новой задачи
 function openModalForNewTask(hideButton) {
-    isNewTask = true;
-    modalTaskText.textContent = '';
+    isNewTask = true; // Устанавливаем флаг, что создаётся новая задача
+    modalTaskText.textContent = ''; // Очищаем текст модального окна
 
-    // Генерируем уникальный ID для новой задачи и устанавливаем историю
+    // Генерируем уникальный ID для новой задачи и сохраняем историю
     const newTaskId = generateUniqueId();
     setTaskHistory(newTaskId);
 
+    // Скрываем кнопку добавления задачи, если передан флаг hideButton или задач нет
     if (hideButton || blockCreateTask.children.length === 0) {
         btnAddTask.parentElement.style.display = "none";
     }
 
+    // Скрываем вторую кнопку добавления задачи и показываем управляющие кнопки
     btnAddTask2.classList.add('footer__btn--hidden');
     controlBtn.forEach(btn => btn.classList.remove('footer__btn--hidden'));
 
-    modal.style.display = 'block';
-    addFocus();
+    modal.style.display = 'block'; // Показываем модальное окно
+    addFocus(); // Фокусируемся на модальном окне
 
-    // Если цвет не был выбран вручную, генерируем случайный цвет
+    // Если цвет не был выбран вручную, выбираем случайный цвет
     if (!selectedColor) {
         selectedColor = colors[Math.floor(Math.random() * colors.length)];
     }
-    modalContent.style.backgroundColor = selectedColor;
+    modalContent.style.backgroundColor = selectedColor; // Устанавливаем цвет модального окна
 
-    // Сброс флага при открытии модального окна, чтобы для новых задач цвет генерировался случайно
-    isColorSelectedManually = false;
+    isColorSelectedManually = false; // Сбрасываем флаг выбора цвета вручную
 
-    document.addEventListener('keydown', handleEscapeKey);
+    document.addEventListener('keydown', handleEscapeKey); // Добавляем обработчик нажатия клавиши Esc
 }
 
 // Функция для открытия модального окна при редактировании задачи
 function openModal(task) {
-    currentTask = task;
-    isNewTask = false;
-    modalTaskText.textContent = task.textContent;
+    currentTask = task; // Устанавливаем текущую редактируемую задачу
+    isNewTask = false; // Сбрасываем флаг новой задачи
+    modalTaskText.textContent = task.textContent; // Загружаем текст задачи в модалку
 
-    const taskColor = window.getComputedStyle(task).backgroundColor;
-    modalContent.style.backgroundColor = taskColor;
+    const taskColor = window.getComputedStyle(task).backgroundColor; // Получаем цвет задачи
+    modalContent.style.backgroundColor = taskColor; // Устанавливаем цвет модального окна
 
-    setTaskHistory(task);
+    setTaskHistory(task); // Сохраняем историю задачи
 
-    btnAddTask2.classList.add('footer__btn--hidden');
-    controlBtn.forEach(btn => btn.classList.remove('footer__btn--hidden'));
+    btnAddTask2.classList.add('footer__btn--hidden'); // Скрываем вторую кнопку добавления задачи
+    controlBtn.forEach(btn => btn.classList.remove('footer__btn--hidden')); // Показываем управляющие кнопки
 
-    modal.style.display = 'block';
-    addFocus();
-    document.addEventListener('keydown', handleEscapeKey);
+    modal.style.display = 'block'; // Показываем модальное окно
+    addFocus(); // Фокусируемся на модальном окне
+    document.addEventListener('keydown', handleEscapeKey); // Добавляем обработчик нажатия клавиши Esc
 }
 
 // Закрытие модального окна и сохранение изменений
 closeModalBtn.addEventListener('click', closeModal);
 
+// Функция закрытия модального окна и обработка сохранений изменений
 function closeModal() {
-    modal.style.display = 'none';
+    modal.style.display = 'none'; // Скрываем модальное окно
 
-    btnAddTask2.classList.remove('footer__btn--hidden');
-    controlBtn.forEach(btn => btn.classList.add('footer__btn--hidden'));
+    btnAddTask2.classList.remove('footer__btn--hidden'); // Показываем вторую кнопку добавления задачи
+    controlBtn.forEach(btn => btn.classList.add('footer__btn--hidden')); // Скрываем управляющие кнопки
 
-    // Проверяем, если задача новая и не пустая
+    // Если создаётся новая задача и текст модалки не пустой
     if (isNewTask && modalTaskText.textContent.trim() !== '') {
-        const taskDiv = document.createElement('div');
-        taskDiv.className = 'main__task-text';
-        taskDiv.setAttribute('contenteditable', 'false');
-        taskDiv.textContent = modalTaskText.textContent;
-        taskDiv.style.backgroundColor = selectedColor || colors[Math.floor(Math.random() * colors.length)];
+        const taskDiv = document.createElement('div'); // Создаём div для новой задачи
+        taskDiv.className = 'main__task-text'; // Устанавливаем класс задачи
+        taskDiv.setAttribute('contenteditable', 'false'); // Запрещаем редактирование текста
+        taskDiv.textContent = modalTaskText.textContent; // Устанавливаем текст задачи
+        taskDiv.style.backgroundColor = selectedColor || colors[Math.floor(Math.random() * colors.length)]; // Устанавливаем цвет задачи
 
-        // Добавляем событие для редактирования задачи
+        // Добавляем событие для открытия модалки при клике на задачу
         taskDiv.addEventListener('click', () => openModal(taskDiv));
 
-        // Создаем кнопку закрытия задачи
-        const closeDiv = document.createElement('div');
+        const closeDiv = document.createElement('div'); // Создаём кнопку закрытия задачи
         closeDiv.className = 'main__task-close';
         closeDiv.addEventListener('click', (event) => {
-            event.stopPropagation(); // Предотвращаем открытие модалки при нажатии на закрыть
-            handleCloseTask(taskDiv); // Функция для обработки закрытия
+            event.stopPropagation(); // Предотвращаем открытие модалки при клике на закрытие
+            handleCloseTask(taskDiv); // Закрываем задачу
         });
 
-        // Встраиваем кнопку закрытия внутрь задачи
-        taskDiv.appendChild(closeDiv);
+        taskDiv.appendChild(closeDiv); // Добавляем кнопку закрытия в задачу
+        blockCreateTask.appendChild(taskDiv); // Добавляем задачу в блок создания
 
-        // Добавляем задачу в блок создания задач
-        blockCreateTask.appendChild(taskDiv);
-
-        // Устанавливаем класс active--start, если задача добавлена
-        const activeTab = document.querySelector('.main__section.active--center');
+        const activeTab = document.querySelector('.main__section.active--center'); // Ищем активный раздел
         if (activeTab) {
             activeTab.classList.remove('active--center');
-            activeTab.classList.add('active--start');
-            blockCreateTask.classList.add('main__task-content--active');
+            activeTab.classList.add('active--start'); // Меняем класс раздела
+            blockCreateTask.classList.add('main__task-content--active'); // Активируем блок задач
         }
 
-        // Обновляем счётчики
-        updateTaskCounts();
-
-        // Показать кнопку, если есть хотя бы одна задача в разделе "создать"
-        checkBtnVisibility();
+        updateTaskCounts(); // Обновляем счётчики задач
+        checkBtnVisibility(); // Проверяем видимость кнопок
     } else if (currentTask) {
-        // Если редактируем задачу
-        currentTask.textContent = modalTaskText.textContent;
-        currentTask.style.backgroundColor = selectedColor || currentTask.style.backgroundColor;
+        currentTask.textContent = modalTaskText.textContent; // Обновляем текст редактируемой задачи
+        currentTask.style.backgroundColor = selectedColor || currentTask.style.backgroundColor; // Обновляем цвет задачи
 
-        // Проверяем наличие кнопки закрытия, и если её нет, добавляем
         if (!currentTask.querySelector('.main__task-close')) {
-            const closeDiv = document.createElement('div');
+            const closeDiv = document.createElement('div'); // Добавляем кнопку закрытия, если её нет
             closeDiv.className = 'main__task-close';
             closeDiv.addEventListener('click', (event) => {
-                event.stopPropagation(); // Предотвращаем открытие модалки при нажатии на закрыть
-                handleCloseTask(currentTask); // Функция для обработки закрытия
+                event.stopPropagation(); // Предотвращаем открытие модалки
+                handleCloseTask(currentTask); // Закрываем задачу
             });
-
-            // Встраиваем кнопку закрытия внутрь задачи
-            currentTask.appendChild(closeDiv);
-
-            // currentTask = null;
-
+            currentTask.appendChild(closeDiv); // Добавляем кнопку в задачу
         }
     } else if (blockCreateTask.children.length === 0) {
-        // Если новая задача пустая и это первая задача
-        const activeTab = document.querySelector('.main__section.active--start');
+        const activeTab = document.querySelector('.main__section.active--start'); // Проверяем, активен ли раздел
         if (activeTab) {
             activeTab.classList.remove('active--start');
-            activeTab.classList.add('active--center');
+            activeTab.classList.add('active--center'); // Меняем класс раздела
         }
-        // Возвращаем кнопку
-        btnAddTask.parentElement.style.display = "flex";
-        btnAddTask2.style.display = 'none';
+        btnAddTask.parentElement.style.display = "flex"; // Возвращаем кнопку
+        btnAddTask2.style.display = 'none'; // Скрываем вторую кнопку
     }
 
-    // currentTask = null;
-    selectedColor = '';
-
-    document.removeEventListener('keydown', handleEscapeKey);
+    selectedColor = ''; // Сбрасываем выбранный цвет
+    document.removeEventListener('keydown', handleEscapeKey); // Удаляем обработчик клавиши Esc
 }
 // ---------------------------------------------------------------------------
 
 
 //------- Установка истории задачи----------
 function setTaskHistory(taskId) {
+    // Обновляем текущий идентификатор задачи
     currentTaskId = taskId;
 
+    // Проверяем, существует ли история для данной задачи в taskHistory
+    // Если нет, создаем новую историю с пустыми массивами для отмены и повторения
     if (!taskHistory.has(taskId)) {
         taskHistory.set(taskId, { undo: [], redo: [] });
     }
 
+    // Получаем текущие стеки отмены и повторения для задачи из taskHistory
     const { undo, redo } = taskHistory.get(taskId);
+
+    // Обновляем текущие стеки отмены и повторения
     currentUndoStack = undo;
     currentRedoStack = redo;
 
+    // Обновляем состояния кнопок в интерфейсе на основе новой истории задачи
     updateButtonStates();
 }
 //--------------------------------------
@@ -293,14 +296,16 @@ function setTaskHistory(taskId) {
 
 //--- Сохранение состояния задачи-----
 function saveStateForCurrentTask() {
-    currentUndoStack.push(modalTaskText.innerHTML);
-    currentRedoStack = [];
+    currentUndoStack.push(modalTaskText.innerHTML); // Добавляет текущее содержимое задачи в стек отмены (`currentUndoStack`).
+    currentRedoStack = []; // Очищает стек повторений (`currentRedoStack`), так как сохраняемое состояние не может быть использовано для повторения.
 
+    // Обновляет историю задачи с новым состоянием, включающим текущее содержимое стека отмены (`undo`) и очищенный стек повторений (`redo`).
     taskHistory.set(currentTaskId, {
         undo: [...currentUndoStack],
         redo: [...currentRedoStack],
     });
 
+    // Обновляет состояние кнопок на основе нового состояния задачи.
     updateButtonStates();
 }
 //--------------------------------------
@@ -312,13 +317,13 @@ function handleCloseTask(taskDiv) {
     const parentSection = taskDiv.closest('.main__section');
     let targetContent;
 
-    if (parentSection.classList.contains('main__section--create-task')) {
+    if (parentSection.classList.contains('main__section--create-task')) {  // Если задача находится в разделе "создать", перемещаем её в раздел "завершенные задачи".
         targetContent = blockCompletedTask.querySelector('.main__task-content');
         targetContent.appendChild(taskDiv);
-    } else if (parentSection.classList.contains('main__section--completed-task')) {
+    } else if (parentSection.classList.contains('main__section--completed-task')) { // Если задача находится в разделе "завершенные задачи", перемещаем её в раздел "корзина"
         targetContent = blockTrash.querySelector('.main__task-content');
         targetContent.appendChild(taskDiv);
-    } else if (parentSection.classList.contains('main__section--trash')) {
+    } else if (parentSection.classList.contains('main__section--trash')) {  // Если задача находится в разделе "корзина", удаляем её.
         taskDiv.remove();
     }
 
@@ -349,14 +354,13 @@ function updateContentVisibility(content) {
 
         let relatedContent;
 
-        if (content.closest('.main__section--completed-task')) {
+        if (content.closest('.main__section--completed-task')) { // Если `content` находится в разделе "завершенные задачи", находим связанный блок с `.main__completed-content`
             relatedContent = document.querySelector('.main__completed-content');
-        } else if (content.closest('.main__section--trash')) {
+        } else if (content.closest('.main__section--trash')) {  // Если `content` находится в разделе "корзина", находим связанный блок с `.main__trash-content`.
             relatedContent = document.querySelector('.main__trash-content');
         }
 
-        // Обновляем видимость relatedContent в зависимости от того, пустой ли content
-        if (relatedContent) {
+        if (relatedContent) { // Обновляем видимость relatedContent в зависимости от того, пустой ли content
             relatedContent.style.display = isEmpty ? 'block' : 'none';
         }
     }
@@ -389,16 +393,18 @@ function addFocus() {
 
 
 // ---------------- нижняя панель управление в Footer -------------------
+// Находим кнопку для выбора цвета и панель выбора цвета
 const btnPaint = document.querySelector('.footer__btn--paint');
 const colorPanel = document.querySelector('.footer__color-choice');
 
+// Проверяем, что оба элемента найдены в DOM
 if (btnPaint && colorPanel) {
-    btnPaint.addEventListener('click', toggleColorPanel);
+    btnPaint.addEventListener('click', toggleColorPanel); // Добавляем обработчик клика на кнопку выбора цвета
 
+    // Функция для переключения состояния панели выбора цвета
     function toggleColorPanel() {
-        // Переключаем классы для панели и кнопки
-        colorPanel.classList.toggle('footer__color-choice--active');
-        btnPaint.classList.toggle('footer__btn--paint-no-hover');
+        colorPanel.classList.toggle('footer__color-choice--active');// Переключаем класс активности для панели выбора цвета
+        btnPaint.classList.toggle('footer__btn--paint-no-hover');// Переключаем класс, чтобы отключить эффект hover на кнопке выбора цвета
     }
 }
 // ---------------------------------------------------------------------
@@ -440,13 +446,19 @@ window.addEventListener('click', (event) => {
 // ------------------------------------------------------------------------
 
 
-// Выбор фонового цвета для модального окна
-const colorButtons = document.querySelectorAll('.footer__btn-color');
+//---------- Выбор фонового цвета для модального окна -----------------------------
+const colorButtons = document.querySelectorAll('.footer__btn-color'); // Находим все кнопки выбора цвета на панели
 
+// Для каждой кнопки добавляем обработчик клика
 colorButtons.forEach(button => {
     button.addEventListener('click', () => {
+        // Устанавливаем выбранный цвет из атрибута `data-color` кнопки
         selectedColor = button.getAttribute('data-color');
+
+        // Изменяем фон модального содержимого на выбранный цвет
         modalContent.style.backgroundColor = selectedColor;
+
+        // Устанавливаем флаг, что цвет был выбран вручную
         isColorSelectedManually = true;
     });
 });
@@ -477,18 +489,18 @@ modalTaskText.addEventListener('keydown', (event) => {
     }
 });
 
-// Обновление состояния кнопок undo/redo
+// Функция для обновления состояния кнопок undo/redo
 function updateButtonStates() {
-    undoBtn.disabled = currentUndoStack.length === 0;
-    redoBtn.disabled = currentRedoStack.length === 0;
+    undoBtn.disabled = currentUndoStack.length === 0; // Отключить кнопку "undo" при отсутствии состояния
+    redoBtn.disabled = currentRedoStack.length === 0;  // Отключить кнопку "redo" при отсутствии состояния
 }
 
-// Undo (шаг назад)
+// Обработчик клика для кнопки "undo" (шаг назад)
 undoBtn.addEventListener('click', () => {
     if (currentUndoStack.length > 0) {
-        const lastState = currentUndoStack.pop();
-        currentRedoStack.push(modalTaskText.innerHTML);
-        modalTaskText.innerHTML = lastState;
+        const lastState = currentUndoStack.pop(); // Извлекаем последнее состояние из стека undo
+        currentRedoStack.push(modalTaskText.innerHTML); // Добавляем текущее состояние в стек redo
+        modalTaskText.innerHTML = lastState; // Восстанавливаем предыдущее состояние текста задачи
 
         // Обновляем историю в map
         taskHistory.set(currentTaskId, {
@@ -496,16 +508,16 @@ undoBtn.addEventListener('click', () => {
             redo: [...currentRedoStack],
         });
 
-        updateButtonStates();
+        updateButtonStates(); // Обновляем состояние кнопок
     }
 });
 
-// Redo (шаг вперед)
+// Обработчик клика для кнопки "redo" (шаг вперед)
 redoBtn.addEventListener('click', () => {
     if (currentRedoStack.length > 0) {
-        const nextState = currentRedoStack.pop();
-        currentUndoStack.push(modalTaskText.innerHTML);
-        modalTaskText.innerHTML = nextState;
+        const nextState = currentRedoStack.pop(); // Извлекаем следующее состояние из стека redo
+        currentUndoStack.push(modalTaskText.innerHTML); // Добавляем текущее состояние в стек undo
+        modalTaskText.innerHTML = nextState; // Восстанавливаем следующее состояние текста задачи
 
         // Обновляем историю в map
         taskHistory.set(currentTaskId, {
@@ -513,7 +525,7 @@ redoBtn.addEventListener('click', () => {
             redo: [...currentRedoStack],
         });
 
-        updateButtonStates();
+        updateButtonStates(); // Обновляем состояние кнопок
     }
 });
 // -----------------------------------------------------------------------------------

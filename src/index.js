@@ -2,8 +2,8 @@
 const tablinks = document.querySelectorAll('.tablinks'); // Вкладки
 const tabContent = document.querySelectorAll('.main__section'); // Секции контента
 const btnAddTask = document.querySelector('.btn-add-task'); // Кнопка добавления задачи в основной области
-const btnAddTask2 = document.querySelector('.btn-add-task--footer'); // Кнопка добавления задачи в нижнем колонтитуле
-const controlBtn = document.querySelectorAll('.control-btn'); // Кнопки управления в нижнем колонтитуле
+const btnAddTask2 = document.querySelector('.btn-add-task--footer'); // Кнопка добавления задачи в подвале
+const controlBtn = document.querySelectorAll('.control-btn'); // Кнопки управления в подвале
 const blockCreateTask = document.querySelector('.main__task-content'); // Блок создания задач
 const blockCompletedTask = document.querySelector('.main__section--completed-task'); // Блок завершённых задач
 const blockTrash = document.querySelector('.main__section--trash'); // Блок корзины
@@ -45,7 +45,7 @@ function openTab(event) {
         tabElement.classList.add('active--center');
     }
 
-    // Скрываем кнопку в нижнем колонтитуле, если вкладка не "Создать"
+    // Скрываем кнопку в подвале, если вкладка не "Создать"
     if (tabName !== 'create-task') {
         btnAddTask2.style.display = 'none';
     } else {
@@ -82,7 +82,7 @@ function updateTaskCounts() {
 //------------------------------------------------------
 
 
-// -------------- Menu Open/Close Button --------------
+// -------------- Открытия/Закрытия меню --------------
 // Определяем элементы меню
 const menuBtn = document.querySelector('.navigation__btn.btn');
 const body = document.querySelector('.body');
@@ -177,7 +177,7 @@ function openModalForNewTask(hideButton) {
     }
     modalContent.style.backgroundColor = selectedColor; // Устанавливаем цвет модального окна
 
-    isColorSelectedManually = false; // Сбрасываем флаг выбора цвета вручную
+    isColorSelectedManually = false; // Сбрасываем флаг выбора цвета
 
     document.addEventListener('keydown', handleEscapeKey); // Добавляем обработчик нажатия клавиши Esc
 }
@@ -294,7 +294,7 @@ function setTaskHistory(taskId) {
 //--------------------------------------
 
 
-//--- Сохранение состояния задачи-----
+//--- Сохранение состояния задачи -----
 function saveStateForCurrentTask() {
     currentUndoStack.push(modalTaskText.innerHTML); // Добавляет текущее содержимое задачи в стек отмены (`currentUndoStack`).
     currentRedoStack = []; // Очищает стек повторений (`currentRedoStack`), так как сохраняемое состояние не может быть использовано для повторения.
